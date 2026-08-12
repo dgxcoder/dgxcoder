@@ -1,0 +1,1202 @@
+{
+  "workspace_root": "/home/stan/PycharmProjects/dreamng",
+  "symbol_count": 57,
+  "file_count": 31,
+  "symbols": [
+    {
+      "name": "test_mcp_initialize",
+      "symbol_type": "function",
+      "file_path": "tests/test_mcp_server.py",
+      "line_start": 4,
+      "line_end": 9,
+      "signature": "def test_mcp_initialize()",
+      "docstring": null
+    },
+    {
+      "name": "test_mcp_list_tools",
+      "symbol_type": "function",
+      "file_path": "tests/test_mcp_server.py",
+      "line_start": 11,
+      "line_end": 19,
+      "signature": "def test_mcp_list_tools()",
+      "docstring": null
+    },
+    {
+      "name": "test_mcp_call_tool",
+      "symbol_type": "function",
+      "file_path": "tests/test_mcp_server.py",
+      "line_start": 21,
+      "line_end": 35,
+      "signature": "def test_mcp_call_tool()",
+      "docstring": null
+    },
+    {
+      "name": "test_config_env_vars",
+      "symbol_type": "function",
+      "file_path": "tests/test_config.py",
+      "line_start": 4,
+      "line_end": 9,
+      "signature": "def test_config_env_vars()",
+      "docstring": null
+    },
+    {
+      "name": "test_ensure_goose_config",
+      "symbol_type": "function",
+      "file_path": "tests/test_config.py",
+      "line_start": 11,
+      "line_end": 17,
+      "signature": "def test_ensure_goose_config(tmp_path)",
+      "docstring": null
+    },
+    {
+      "name": "test_context_engine_indexing",
+      "symbol_type": "function",
+      "file_path": "tests/test_context_engine.py",
+      "line_start": 5,
+      "line_end": 17,
+      "signature": "def test_context_engine_indexing(tmp_path)",
+      "docstring": null
+    },
+    {
+      "name": "test_system_memory",
+      "symbol_type": "function",
+      "file_path": "tests/test_hardware.py",
+      "line_start": 8,
+      "line_end": 12,
+      "signature": "def test_system_memory()",
+      "docstring": null
+    },
+    {
+      "name": "test_detect_gb10_hardware",
+      "symbol_type": "function",
+      "file_path": "tests/test_hardware.py",
+      "line_start": 14,
+      "line_end": 18,
+      "signature": "def test_detect_gb10_hardware()",
+      "docstring": null
+    },
+    {
+      "name": "test_check_model_compatibility",
+      "symbol_type": "function",
+      "file_path": "tests/test_hardware.py",
+      "line_start": 20,
+      "line_end": 28,
+      "signature": "def test_check_model_compatibility()",
+      "docstring": null
+    },
+    {
+      "name": "CodeSymbol",
+      "symbol_type": "class",
+      "file_path": "dreamng/context_engine.py",
+      "line_start": 21,
+      "line_end": 28,
+      "signature": "class CodeSymbol",
+      "docstring": null
+    },
+    {
+      "name": "IndexedFile",
+      "symbol_type": "class",
+      "file_path": "dreamng/context_engine.py",
+      "line_start": 31,
+      "line_end": 36,
+      "signature": "class IndexedFile",
+      "docstring": null
+    },
+    {
+      "name": "ContextEngine",
+      "symbol_type": "class",
+      "file_path": "dreamng/context_engine.py",
+      "line_start": 38,
+      "line_end": 243,
+      "signature": "class ContextEngine",
+      "docstring": "AST + Vector Indexing Engine for Dreamng zero-egress local code context."
+    },
+    {
+      "name": "__init__",
+      "symbol_type": "function",
+      "file_path": "dreamng/context_engine.py",
+      "line_start": 41,
+      "line_end": 47,
+      "signature": "def __init__(self, workspace_root)",
+      "docstring": null
+    },
+    {
+      "name": "is_ignored",
+      "symbol_type": "function",
+      "file_path": "dreamng/context_engine.py",
+      "line_start": 49,
+      "line_end": 56,
+      "signature": "def is_ignored(self, path)",
+      "docstring": "Check if path should be ignored during indexing."
+    },
+    {
+      "name": "tokenize",
+      "symbol_type": "function",
+      "file_path": "dreamng/context_engine.py",
+      "line_start": 58,
+      "line_end": 67,
+      "signature": "def tokenize(self, text)",
+      "docstring": "Splits code/comments into identifiers and normalized terms."
+    },
+    {
+      "name": "extract_python_ast",
+      "symbol_type": "function",
+      "file_path": "dreamng/context_engine.py",
+      "line_start": 69,
+      "line_end": 101,
+      "signature": "def extract_python_ast(self, file_path, rel_path, content)",
+      "docstring": "Parses Python code using native AST to extract classes and functions."
+    },
+    {
+      "name": "index_workspace",
+      "symbol_type": "function",
+      "file_path": "dreamng/context_engine.py",
+      "line_start": 103,
+      "line_end": 167,
+      "signature": "def index_workspace(self, force_reindex)",
+      "docstring": "Indexes all supported source files in the workspace."
+    },
+    {
+      "name": "search_code",
+      "symbol_type": "function",
+      "file_path": "dreamng/context_engine.py",
+      "line_start": 169,
+      "line_end": 191,
+      "signature": "def search_code(self, query, top_k)",
+      "docstring": "Performs TF-IDF local semantic search for relevant workspace code."
+    },
+    {
+      "name": "save_index",
+      "symbol_type": "function",
+      "file_path": "dreamng/context_engine.py",
+      "line_start": 193,
+      "line_end": 211,
+      "signature": "def save_index(self)",
+      "docstring": "Saves cached index into .dreamng/context_index.json."
+    },
+    {
+      "name": "load_index",
+      "symbol_type": "function",
+      "file_path": "dreamng/context_engine.py",
+      "line_start": 213,
+      "line_end": 234,
+      "signature": "def load_index(self)",
+      "docstring": "Loads cached index if available."
+    },
+    {
+      "name": "get_summary",
+      "symbol_type": "function",
+      "file_path": "dreamng/context_engine.py",
+      "line_start": 236,
+      "line_end": 243,
+      "signature": "def get_summary(self)",
+      "docstring": "Returns workspace indexing stats."
+    },
+    {
+      "name": "ModelSpec",
+      "symbol_type": "class",
+      "file_path": "dreamng/hardware.py",
+      "line_start": 9,
+      "line_end": 16,
+      "signature": "class ModelSpec",
+      "docstring": null
+    },
+    {
+      "name": "get_system_memory",
+      "symbol_type": "function",
+      "file_path": "dreamng/hardware.py",
+      "line_start": 84,
+      "line_end": 104,
+      "signature": "def get_system_memory()",
+      "docstring": "Retrieves total and available system memory in GB from /proc/meminfo."
+    },
+    {
+      "name": "detect_gb10_hardware",
+      "symbol_type": "function",
+      "file_path": "dreamng/hardware.py",
+      "line_start": 106,
+      "line_end": 161,
+      "signature": "def detect_gb10_hardware()",
+      "docstring": "Checks system hardware against NVIDIA GB10 target specs:\n- GPU Name (NVIDIA GB10 Blackwell Architecture)\n- 128 GB Unified LPDDR5X Memory\n- Driver version & CUDA support"
+    },
+    {
+      "name": "check_model_compatibility",
+      "symbol_type": "function",
+      "file_path": "dreamng/hardware.py",
+      "line_start": 163,
+      "line_end": 178,
+      "signature": "def check_model_compatibility(model_key)",
+      "docstring": "Validates if the requested model can run on the local GB10 hardware setup."
+    },
+    {
+      "name": "display_header",
+      "symbol_type": "function",
+      "file_path": "dreamng/cli.py",
+      "line_start": 23,
+      "line_end": 28,
+      "signature": "def display_header()",
+      "docstring": null
+    },
+    {
+      "name": "handle_status",
+      "symbol_type": "function",
+      "file_path": "dreamng/cli.py",
+      "line_start": 30,
+      "line_end": 80,
+      "signature": "def handle_status()",
+      "docstring": null
+    },
+    {
+      "name": "main",
+      "symbol_type": "function",
+      "file_path": "dreamng/cli.py",
+      "line_start": 82,
+      "line_end": 184,
+      "signature": "def main()",
+      "docstring": null
+    },
+    {
+      "name": "DreamngConfig",
+      "symbol_type": "class",
+      "file_path": "dreamng/config.py",
+      "line_start": 16,
+      "line_end": 79,
+      "signature": "class DreamngConfig",
+      "docstring": "Manages GB10 hardware setup and Goose agent configurations."
+    },
+    {
+      "name": "__init__",
+      "symbol_type": "function",
+      "file_path": "dreamng/config.py",
+      "line_start": 19,
+      "line_end": 22,
+      "signature": "def __init__(self, vllm_host, model)",
+      "docstring": null
+    },
+    {
+      "name": "validate_model",
+      "symbol_type": "function",
+      "file_path": "dreamng/config.py",
+      "line_start": 24,
+      "line_end": 26,
+      "signature": "def validate_model(self)",
+      "docstring": "Validates selected model against GB10 hardware specs."
+    },
+    {
+      "name": "get_env_vars",
+      "symbol_type": "function",
+      "file_path": "dreamng/config.py",
+      "line_start": 28,
+      "line_end": 36,
+      "signature": "def get_env_vars(self)",
+      "docstring": "Returns environment variables required to run Goose against local GB10 vLLM endpoint."
+    },
+    {
+      "name": "ensure_goose_config",
+      "symbol_type": "function",
+      "file_path": "dreamng/config.py",
+      "line_start": 38,
+      "line_end": 79,
+      "signature": "def ensure_goose_config(self, extra_mcp_servers)",
+      "docstring": "Writes or updates ~/.config/goose/config.yaml to integrate local vLLM and MCP servers."
+    },
+    {
+      "name": "GooseRunner",
+      "symbol_type": "class",
+      "file_path": "dreamng/runner.py",
+      "line_start": 9,
+      "line_end": 62,
+      "signature": "class GooseRunner",
+      "docstring": "Orchestrates Goose AI agent sessions on NVIDIA GB10 hardware."
+    },
+    {
+      "name": "__init__",
+      "symbol_type": "function",
+      "file_path": "dreamng/runner.py",
+      "line_start": 12,
+      "line_end": 14,
+      "signature": "def __init__(self, config)",
+      "docstring": null
+    },
+    {
+      "name": "is_goose_installed",
+      "symbol_type": "function",
+      "file_path": "dreamng/runner.py",
+      "line_start": 16,
+      "line_end": 18,
+      "signature": "def is_goose_installed(self)",
+      "docstring": "Check if goose CLI binary is installed and accessible in PATH."
+    },
+    {
+      "name": "run_session",
+      "symbol_type": "function",
+      "file_path": "dreamng/runner.py",
+      "line_start": 20,
+      "line_end": 62,
+      "signature": "def run_session(self, prompt, debug)",
+      "docstring": "Launches an interactive or non-interactive Goose agent session connected to local GB10 vLLM endpoint."
+    },
+    {
+      "name": "IDEState",
+      "symbol_type": "class",
+      "file_path": "dreamng/mcp_server.py",
+      "line_start": 7,
+      "line_end": 23,
+      "signature": "class IDEState",
+      "docstring": "Mock/Bridge state store for connected IDE editor sessions."
+    },
+    {
+      "name": "MCPServer",
+      "symbol_type": "class",
+      "file_path": "dreamng/mcp_server.py",
+      "line_start": 27,
+      "line_end": 185,
+      "signature": "class MCPServer",
+      "docstring": "Model Context Protocol (MCP) Stdio Server for JetBrains & VS Code Integration."
+    },
+    {
+      "name": "main",
+      "symbol_type": "function",
+      "file_path": "dreamng/mcp_server.py",
+      "line_start": 187,
+      "line_end": 189,
+      "signature": "def main()",
+      "docstring": null
+    },
+    {
+      "name": "__init__",
+      "symbol_type": "function",
+      "file_path": "dreamng/mcp_server.py",
+      "line_start": 9,
+      "line_end": 15,
+      "signature": "def __init__(self)",
+      "docstring": null
+    },
+    {
+      "name": "set_active_editor",
+      "symbol_type": "function",
+      "file_path": "dreamng/mcp_server.py",
+      "line_start": 17,
+      "line_end": 23,
+      "signature": "def set_active_editor(self, file_path, line, col, selection)",
+      "docstring": null
+    },
+    {
+      "name": "__init__",
+      "symbol_type": "function",
+      "file_path": "dreamng/mcp_server.py",
+      "line_start": 30,
+      "line_end": 31,
+      "signature": "def __init__(self)",
+      "docstring": null
+    },
+    {
+      "name": "handle_request",
+      "symbol_type": "function",
+      "file_path": "dreamng/mcp_server.py",
+      "line_start": 33,
+      "line_end": 131,
+      "signature": "def handle_request(self, request)",
+      "docstring": null
+    },
+    {
+      "name": "execute_tool",
+      "symbol_type": "function",
+      "file_path": "dreamng/mcp_server.py",
+      "line_start": 133,
+      "line_end": 169,
+      "signature": "def execute_tool(self, tool_name, args)",
+      "docstring": null
+    },
+    {
+      "name": "run_stdio",
+      "symbol_type": "function",
+      "file_path": "dreamng/mcp_server.py",
+      "line_start": 171,
+      "line_end": 185,
+      "signature": "def run_stdio(self)",
+      "docstring": "Runs the JSON-RPC stdio loop for Goose / MCP integration."
+    },
+    {
+      "name": "CanvasHandler",
+      "symbol_type": "class",
+      "file_path": "dreamng/web_canvas.py",
+      "line_start": 265,
+      "line_end": 295,
+      "signature": "class CanvasHandler",
+      "docstring": null
+    },
+    {
+      "name": "start_web_canvas_server",
+      "symbol_type": "function",
+      "file_path": "dreamng/web_canvas.py",
+      "line_start": 297,
+      "line_end": 303,
+      "signature": "def start_web_canvas_server(port, daemon)",
+      "docstring": "Launches local Dreamng Web Canvas UI on specified port."
+    },
+    {
+      "name": "log_message",
+      "symbol_type": "function",
+      "file_path": "dreamng/web_canvas.py",
+      "line_start": 266,
+      "line_end": 267,
+      "signature": "def log_message(self, format)",
+      "docstring": null
+    },
+    {
+      "name": "do_GET",
+      "symbol_type": "function",
+      "file_path": "dreamng/web_canvas.py",
+      "line_start": 269,
+      "line_end": 295,
+      "signature": "def do_GET(self)",
+      "docstring": null
+    },
+    {
+      "name": "VLLMServerManager",
+      "symbol_type": "class",
+      "file_path": "dreamng/vllm_server.py",
+      "line_start": 11,
+      "line_end": 100,
+      "signature": "class VLLMServerManager",
+      "docstring": "Manages the local vLLM / TensorRT-LLM server on NVIDIA GB10 hardware."
+    },
+    {
+      "name": "__init__",
+      "symbol_type": "function",
+      "file_path": "dreamng/vllm_server.py",
+      "line_start": 14,
+      "line_end": 16,
+      "signature": "def __init__(self, host)",
+      "docstring": null
+    },
+    {
+      "name": "check_health",
+      "symbol_type": "function",
+      "file_path": "dreamng/vllm_server.py",
+      "line_start": 18,
+      "line_end": 25,
+      "signature": "def check_health(self, timeout)",
+      "docstring": "Checks if vLLM server is active and responding to HTTP requests."
+    },
+    {
+      "name": "get_models",
+      "symbol_type": "function",
+      "file_path": "dreamng/vllm_server.py",
+      "line_start": 27,
+      "line_end": 37,
+      "signature": "def get_models(self, timeout)",
+      "docstring": "Lists models currently served by vLLM endpoint."
+    },
+    {
+      "name": "build_launch_command",
+      "symbol_type": "function",
+      "file_path": "dreamng/vllm_server.py",
+      "line_start": 39,
+      "line_end": 66,
+      "signature": "def build_launch_command(self, model, port, quantization, max_model_len, gpu_memory_utilization)",
+      "docstring": "Generates vLLM command line optimized for NVIDIA GB10 128GB Unified Memory."
+    },
+    {
+      "name": "start_server",
+      "symbol_type": "function",
+      "file_path": "dreamng/vllm_server.py",
+      "line_start": 68,
+      "line_end": 89,
+      "signature": "def start_server(self, model, port, quantization, background)",
+      "docstring": "Launches vLLM server instance."
+    },
+    {
+      "name": "get_server_status",
+      "symbol_type": "function",
+      "file_path": "dreamng/vllm_server.py",
+      "line_start": 91,
+      "line_end": 100,
+      "signature": "def get_server_status(self)",
+      "docstring": "Returns health, models, and host info."
+    }
+  ],
+  "files": {
+    "setup.py": {
+      "rel_path": "setup.py",
+      "size_bytes": 340,
+      "symbols": []
+    },
+    ".gitignore": {
+      "rel_path": ".gitignore",
+      "size_bytes": 409,
+      "symbols": []
+    },
+    "DREAMNG_SPEC.md": {
+      "rel_path": "DREAMNG_SPEC.md",
+      "size_bytes": 12109,
+      "symbols": []
+    },
+    "dreamng.egg-info/top_level.txt": {
+      "rel_path": "dreamng.egg-info/top_level.txt",
+      "size_bytes": 9,
+      "symbols": []
+    },
+    "dreamng.egg-info/dependency_links.txt": {
+      "rel_path": "dreamng.egg-info/dependency_links.txt",
+      "size_bytes": 1,
+      "symbols": []
+    },
+    "dreamng.egg-info/SOURCES.txt": {
+      "rel_path": "dreamng.egg-info/SOURCES.txt",
+      "size_bytes": 395,
+      "symbols": []
+    },
+    "dreamng.egg-info/entry_points.txt": {
+      "rel_path": "dreamng.egg-info/entry_points.txt",
+      "size_bytes": 47,
+      "symbols": []
+    },
+    "dreamng.egg-info/requires.txt": {
+      "rel_path": "dreamng.egg-info/requires.txt",
+      "size_bytes": 42,
+      "symbols": []
+    },
+    "dreamng.egg-info/PKG-INFO": {
+      "rel_path": "dreamng.egg-info/PKG-INFO",
+      "size_bytes": 162,
+      "symbols": []
+    },
+    "tests/test_mcp_server.py": {
+      "rel_path": "tests/test_mcp_server.py",
+      "size_bytes": 1143,
+      "symbols": [
+        {
+          "name": "test_mcp_initialize",
+          "symbol_type": "function",
+          "file_path": "tests/test_mcp_server.py",
+          "line_start": 4,
+          "line_end": 9,
+          "signature": "def test_mcp_initialize()",
+          "docstring": null
+        },
+        {
+          "name": "test_mcp_list_tools",
+          "symbol_type": "function",
+          "file_path": "tests/test_mcp_server.py",
+          "line_start": 11,
+          "line_end": 19,
+          "signature": "def test_mcp_list_tools()",
+          "docstring": null
+        },
+        {
+          "name": "test_mcp_call_tool",
+          "symbol_type": "function",
+          "file_path": "tests/test_mcp_server.py",
+          "line_start": 21,
+          "line_end": 35,
+          "signature": "def test_mcp_call_tool()",
+          "docstring": null
+        }
+      ]
+    },
+    "tests/test_config.py": {
+      "rel_path": "tests/test_config.py",
+      "size_bytes": 660,
+      "symbols": [
+        {
+          "name": "test_config_env_vars",
+          "symbol_type": "function",
+          "file_path": "tests/test_config.py",
+          "line_start": 4,
+          "line_end": 9,
+          "signature": "def test_config_env_vars()",
+          "docstring": null
+        },
+        {
+          "name": "test_ensure_goose_config",
+          "symbol_type": "function",
+          "file_path": "tests/test_config.py",
+          "line_start": 11,
+          "line_end": 17,
+          "signature": "def test_ensure_goose_config(tmp_path)",
+          "docstring": null
+        }
+      ]
+    },
+    "tests/test_context_engine.py": {
+      "rel_path": "tests/test_context_engine.py",
+      "size_bytes": 607,
+      "symbols": [
+        {
+          "name": "test_context_engine_indexing",
+          "symbol_type": "function",
+          "file_path": "tests/test_context_engine.py",
+          "line_start": 5,
+          "line_end": 17,
+          "signature": "def test_context_engine_indexing(tmp_path)",
+          "docstring": null
+        }
+      ]
+    },
+    "tests/test_hardware.py": {
+      "rel_path": "tests/test_hardware.py",
+      "size_bytes": 816,
+      "symbols": [
+        {
+          "name": "test_system_memory",
+          "symbol_type": "function",
+          "file_path": "tests/test_hardware.py",
+          "line_start": 8,
+          "line_end": 12,
+          "signature": "def test_system_memory()",
+          "docstring": null
+        },
+        {
+          "name": "test_detect_gb10_hardware",
+          "symbol_type": "function",
+          "file_path": "tests/test_hardware.py",
+          "line_start": 14,
+          "line_end": 18,
+          "signature": "def test_detect_gb10_hardware()",
+          "docstring": null
+        },
+        {
+          "name": "test_check_model_compatibility",
+          "symbol_type": "function",
+          "file_path": "tests/test_hardware.py",
+          "line_start": 20,
+          "line_end": 28,
+          "signature": "def test_check_model_compatibility()",
+          "docstring": null
+        }
+      ]
+    },
+    ".antigravity/settings.json": {
+      "rel_path": ".antigravity/settings.json",
+      "size_bytes": 48,
+      "symbols": []
+    },
+    "dreamng/context_engine.py": {
+      "rel_path": "dreamng/context_engine.py",
+      "size_bytes": 9430,
+      "symbols": [
+        {
+          "name": "CodeSymbol",
+          "symbol_type": "class",
+          "file_path": "dreamng/context_engine.py",
+          "line_start": 21,
+          "line_end": 28,
+          "signature": "class CodeSymbol",
+          "docstring": null
+        },
+        {
+          "name": "IndexedFile",
+          "symbol_type": "class",
+          "file_path": "dreamng/context_engine.py",
+          "line_start": 31,
+          "line_end": 36,
+          "signature": "class IndexedFile",
+          "docstring": null
+        },
+        {
+          "name": "ContextEngine",
+          "symbol_type": "class",
+          "file_path": "dreamng/context_engine.py",
+          "line_start": 38,
+          "line_end": 243,
+          "signature": "class ContextEngine",
+          "docstring": "AST + Vector Indexing Engine for Dreamng zero-egress local code context."
+        },
+        {
+          "name": "__init__",
+          "symbol_type": "function",
+          "file_path": "dreamng/context_engine.py",
+          "line_start": 41,
+          "line_end": 47,
+          "signature": "def __init__(self, workspace_root)",
+          "docstring": null
+        },
+        {
+          "name": "is_ignored",
+          "symbol_type": "function",
+          "file_path": "dreamng/context_engine.py",
+          "line_start": 49,
+          "line_end": 56,
+          "signature": "def is_ignored(self, path)",
+          "docstring": "Check if path should be ignored during indexing."
+        },
+        {
+          "name": "tokenize",
+          "symbol_type": "function",
+          "file_path": "dreamng/context_engine.py",
+          "line_start": 58,
+          "line_end": 67,
+          "signature": "def tokenize(self, text)",
+          "docstring": "Splits code/comments into identifiers and normalized terms."
+        },
+        {
+          "name": "extract_python_ast",
+          "symbol_type": "function",
+          "file_path": "dreamng/context_engine.py",
+          "line_start": 69,
+          "line_end": 101,
+          "signature": "def extract_python_ast(self, file_path, rel_path, content)",
+          "docstring": "Parses Python code using native AST to extract classes and functions."
+        },
+        {
+          "name": "index_workspace",
+          "symbol_type": "function",
+          "file_path": "dreamng/context_engine.py",
+          "line_start": 103,
+          "line_end": 167,
+          "signature": "def index_workspace(self, force_reindex)",
+          "docstring": "Indexes all supported source files in the workspace."
+        },
+        {
+          "name": "search_code",
+          "symbol_type": "function",
+          "file_path": "dreamng/context_engine.py",
+          "line_start": 169,
+          "line_end": 191,
+          "signature": "def search_code(self, query, top_k)",
+          "docstring": "Performs TF-IDF local semantic search for relevant workspace code."
+        },
+        {
+          "name": "save_index",
+          "symbol_type": "function",
+          "file_path": "dreamng/context_engine.py",
+          "line_start": 193,
+          "line_end": 211,
+          "signature": "def save_index(self)",
+          "docstring": "Saves cached index into .dreamng/context_index.json."
+        },
+        {
+          "name": "load_index",
+          "symbol_type": "function",
+          "file_path": "dreamng/context_engine.py",
+          "line_start": 213,
+          "line_end": 234,
+          "signature": "def load_index(self)",
+          "docstring": "Loads cached index if available."
+        },
+        {
+          "name": "get_summary",
+          "symbol_type": "function",
+          "file_path": "dreamng/context_engine.py",
+          "line_start": 236,
+          "line_end": 243,
+          "signature": "def get_summary(self)",
+          "docstring": "Returns workspace indexing stats."
+        }
+      ]
+    },
+    "dreamng/hardware.py": {
+      "rel_path": "dreamng/hardware.py",
+      "size_bytes": 6223,
+      "symbols": [
+        {
+          "name": "ModelSpec",
+          "symbol_type": "class",
+          "file_path": "dreamng/hardware.py",
+          "line_start": 9,
+          "line_end": 16,
+          "signature": "class ModelSpec",
+          "docstring": null
+        },
+        {
+          "name": "get_system_memory",
+          "symbol_type": "function",
+          "file_path": "dreamng/hardware.py",
+          "line_start": 84,
+          "line_end": 104,
+          "signature": "def get_system_memory()",
+          "docstring": "Retrieves total and available system memory in GB from /proc/meminfo."
+        },
+        {
+          "name": "detect_gb10_hardware",
+          "symbol_type": "function",
+          "file_path": "dreamng/hardware.py",
+          "line_start": 106,
+          "line_end": 161,
+          "signature": "def detect_gb10_hardware()",
+          "docstring": "Checks system hardware against NVIDIA GB10 target specs:\n- GPU Name (NVIDIA GB10 Blackwell Architecture)\n- 128 GB Unified LPDDR5X Memory\n- Driver version & CUDA support"
+        },
+        {
+          "name": "check_model_compatibility",
+          "symbol_type": "function",
+          "file_path": "dreamng/hardware.py",
+          "line_start": 163,
+          "line_end": 178,
+          "signature": "def check_model_compatibility(model_key)",
+          "docstring": "Validates if the requested model can run on the local GB10 hardware setup."
+        }
+      ]
+    },
+    "dreamng/cli.py": {
+      "rel_path": "dreamng/cli.py",
+      "size_bytes": 8768,
+      "symbols": [
+        {
+          "name": "display_header",
+          "symbol_type": "function",
+          "file_path": "dreamng/cli.py",
+          "line_start": 23,
+          "line_end": 28,
+          "signature": "def display_header()",
+          "docstring": null
+        },
+        {
+          "name": "handle_status",
+          "symbol_type": "function",
+          "file_path": "dreamng/cli.py",
+          "line_start": 30,
+          "line_end": 80,
+          "signature": "def handle_status()",
+          "docstring": null
+        },
+        {
+          "name": "main",
+          "symbol_type": "function",
+          "file_path": "dreamng/cli.py",
+          "line_start": 82,
+          "line_end": 184,
+          "signature": "def main()",
+          "docstring": null
+        }
+      ]
+    },
+    "dreamng/config.py": {
+      "rel_path": "dreamng/config.py",
+      "size_bytes": 2909,
+      "symbols": [
+        {
+          "name": "DreamngConfig",
+          "symbol_type": "class",
+          "file_path": "dreamng/config.py",
+          "line_start": 16,
+          "line_end": 79,
+          "signature": "class DreamngConfig",
+          "docstring": "Manages GB10 hardware setup and Goose agent configurations."
+        },
+        {
+          "name": "__init__",
+          "symbol_type": "function",
+          "file_path": "dreamng/config.py",
+          "line_start": 19,
+          "line_end": 22,
+          "signature": "def __init__(self, vllm_host, model)",
+          "docstring": null
+        },
+        {
+          "name": "validate_model",
+          "symbol_type": "function",
+          "file_path": "dreamng/config.py",
+          "line_start": 24,
+          "line_end": 26,
+          "signature": "def validate_model(self)",
+          "docstring": "Validates selected model against GB10 hardware specs."
+        },
+        {
+          "name": "get_env_vars",
+          "symbol_type": "function",
+          "file_path": "dreamng/config.py",
+          "line_start": 28,
+          "line_end": 36,
+          "signature": "def get_env_vars(self)",
+          "docstring": "Returns environment variables required to run Goose against local GB10 vLLM endpoint."
+        },
+        {
+          "name": "ensure_goose_config",
+          "symbol_type": "function",
+          "file_path": "dreamng/config.py",
+          "line_start": 38,
+          "line_end": 79,
+          "signature": "def ensure_goose_config(self, extra_mcp_servers)",
+          "docstring": "Writes or updates ~/.config/goose/config.yaml to integrate local vLLM and MCP servers."
+        }
+      ]
+    },
+    "dreamng/runner.py": {
+      "rel_path": "dreamng/runner.py",
+      "size_bytes": 2530,
+      "symbols": [
+        {
+          "name": "GooseRunner",
+          "symbol_type": "class",
+          "file_path": "dreamng/runner.py",
+          "line_start": 9,
+          "line_end": 62,
+          "signature": "class GooseRunner",
+          "docstring": "Orchestrates Goose AI agent sessions on NVIDIA GB10 hardware."
+        },
+        {
+          "name": "__init__",
+          "symbol_type": "function",
+          "file_path": "dreamng/runner.py",
+          "line_start": 12,
+          "line_end": 14,
+          "signature": "def __init__(self, config)",
+          "docstring": null
+        },
+        {
+          "name": "is_goose_installed",
+          "symbol_type": "function",
+          "file_path": "dreamng/runner.py",
+          "line_start": 16,
+          "line_end": 18,
+          "signature": "def is_goose_installed(self)",
+          "docstring": "Check if goose CLI binary is installed and accessible in PATH."
+        },
+        {
+          "name": "run_session",
+          "symbol_type": "function",
+          "file_path": "dreamng/runner.py",
+          "line_start": 20,
+          "line_end": 62,
+          "signature": "def run_session(self, prompt, debug)",
+          "docstring": "Launches an interactive or non-interactive Goose agent session connected to local GB10 vLLM endpoint."
+        }
+      ]
+    },
+    "dreamng/mcp_server.py": {
+      "rel_path": "dreamng/mcp_server.py",
+      "size_bytes": 7929,
+      "symbols": [
+        {
+          "name": "IDEState",
+          "symbol_type": "class",
+          "file_path": "dreamng/mcp_server.py",
+          "line_start": 7,
+          "line_end": 23,
+          "signature": "class IDEState",
+          "docstring": "Mock/Bridge state store for connected IDE editor sessions."
+        },
+        {
+          "name": "MCPServer",
+          "symbol_type": "class",
+          "file_path": "dreamng/mcp_server.py",
+          "line_start": 27,
+          "line_end": 185,
+          "signature": "class MCPServer",
+          "docstring": "Model Context Protocol (MCP) Stdio Server for JetBrains & VS Code Integration."
+        },
+        {
+          "name": "main",
+          "symbol_type": "function",
+          "file_path": "dreamng/mcp_server.py",
+          "line_start": 187,
+          "line_end": 189,
+          "signature": "def main()",
+          "docstring": null
+        },
+        {
+          "name": "__init__",
+          "symbol_type": "function",
+          "file_path": "dreamng/mcp_server.py",
+          "line_start": 9,
+          "line_end": 15,
+          "signature": "def __init__(self)",
+          "docstring": null
+        },
+        {
+          "name": "set_active_editor",
+          "symbol_type": "function",
+          "file_path": "dreamng/mcp_server.py",
+          "line_start": 17,
+          "line_end": 23,
+          "signature": "def set_active_editor(self, file_path, line, col, selection)",
+          "docstring": null
+        },
+        {
+          "name": "__init__",
+          "symbol_type": "function",
+          "file_path": "dreamng/mcp_server.py",
+          "line_start": 30,
+          "line_end": 31,
+          "signature": "def __init__(self)",
+          "docstring": null
+        },
+        {
+          "name": "handle_request",
+          "symbol_type": "function",
+          "file_path": "dreamng/mcp_server.py",
+          "line_start": 33,
+          "line_end": 131,
+          "signature": "def handle_request(self, request)",
+          "docstring": null
+        },
+        {
+          "name": "execute_tool",
+          "symbol_type": "function",
+          "file_path": "dreamng/mcp_server.py",
+          "line_start": 133,
+          "line_end": 169,
+          "signature": "def execute_tool(self, tool_name, args)",
+          "docstring": null
+        },
+        {
+          "name": "run_stdio",
+          "symbol_type": "function",
+          "file_path": "dreamng/mcp_server.py",
+          "line_start": 171,
+          "line_end": 185,
+          "signature": "def run_stdio(self)",
+          "docstring": "Runs the JSON-RPC stdio loop for Goose / MCP integration."
+        }
+      ]
+    },
+    "dreamng/web_canvas.py": {
+      "rel_path": "dreamng/web_canvas.py",
+      "size_bytes": 9767,
+      "symbols": [
+        {
+          "name": "CanvasHandler",
+          "symbol_type": "class",
+          "file_path": "dreamng/web_canvas.py",
+          "line_start": 265,
+          "line_end": 295,
+          "signature": "class CanvasHandler",
+          "docstring": null
+        },
+        {
+          "name": "start_web_canvas_server",
+          "symbol_type": "function",
+          "file_path": "dreamng/web_canvas.py",
+          "line_start": 297,
+          "line_end": 303,
+          "signature": "def start_web_canvas_server(port, daemon)",
+          "docstring": "Launches local Dreamng Web Canvas UI on specified port."
+        },
+        {
+          "name": "log_message",
+          "symbol_type": "function",
+          "file_path": "dreamng/web_canvas.py",
+          "line_start": 266,
+          "line_end": 267,
+          "signature": "def log_message(self, format)",
+          "docstring": null
+        },
+        {
+          "name": "do_GET",
+          "symbol_type": "function",
+          "file_path": "dreamng/web_canvas.py",
+          "line_start": 269,
+          "line_end": 295,
+          "signature": "def do_GET(self)",
+          "docstring": null
+        }
+      ]
+    },
+    "dreamng/__init__.py": {
+      "rel_path": "dreamng/__init__.py",
+      "size_bytes": 112,
+      "symbols": []
+    },
+    "dreamng/vllm_server.py": {
+      "rel_path": "dreamng/vllm_server.py",
+      "size_bytes": 3403,
+      "symbols": [
+        {
+          "name": "VLLMServerManager",
+          "symbol_type": "class",
+          "file_path": "dreamng/vllm_server.py",
+          "line_start": 11,
+          "line_end": 100,
+          "signature": "class VLLMServerManager",
+          "docstring": "Manages the local vLLM / TensorRT-LLM server on NVIDIA GB10 hardware."
+        },
+        {
+          "name": "__init__",
+          "symbol_type": "function",
+          "file_path": "dreamng/vllm_server.py",
+          "line_start": 14,
+          "line_end": 16,
+          "signature": "def __init__(self, host)",
+          "docstring": null
+        },
+        {
+          "name": "check_health",
+          "symbol_type": "function",
+          "file_path": "dreamng/vllm_server.py",
+          "line_start": 18,
+          "line_end": 25,
+          "signature": "def check_health(self, timeout)",
+          "docstring": "Checks if vLLM server is active and responding to HTTP requests."
+        },
+        {
+          "name": "get_models",
+          "symbol_type": "function",
+          "file_path": "dreamng/vllm_server.py",
+          "line_start": 27,
+          "line_end": 37,
+          "signature": "def get_models(self, timeout)",
+          "docstring": "Lists models currently served by vLLM endpoint."
+        },
+        {
+          "name": "build_launch_command",
+          "symbol_type": "function",
+          "file_path": "dreamng/vllm_server.py",
+          "line_start": 39,
+          "line_end": 66,
+          "signature": "def build_launch_command(self, model, port, quantization, max_model_len, gpu_memory_utilization)",
+          "docstring": "Generates vLLM command line optimized for NVIDIA GB10 128GB Unified Memory."
+        },
+        {
+          "name": "start_server",
+          "symbol_type": "function",
+          "file_path": "dreamng/vllm_server.py",
+          "line_start": 68,
+          "line_end": 89,
+          "signature": "def start_server(self, model, port, quantization, background)",
+          "docstring": "Launches vLLM server instance."
+        },
+        {
+          "name": "get_server_status",
+          "symbol_type": "function",
+          "file_path": "dreamng/vllm_server.py",
+          "line_start": 91,
+          "line_end": 100,
+          "signature": "def get_server_status(self)",
+          "docstring": "Returns health, models, and host info."
+        }
+      ]
+    },
+    "scripts/run_vllm_gb10.sh": {
+      "rel_path": "scripts/run_vllm_gb10.sh",
+      "size_bytes": 444,
+      "symbols": []
+    },
+    "scripts/install_gb10.sh": {
+      "rel_path": "scripts/install_gb10.sh",
+      "size_bytes": 767,
+      "symbols": []
+    },
+    "scripts/run_goose.sh": {
+      "rel_path": "scripts/run_goose.sh",
+      "size_bytes": 359,
+      "symbols": []
+    },
+    ".pytest_cache/.gitignore": {
+      "rel_path": ".pytest_cache/.gitignore",
+      "size_bytes": 37,
+      "symbols": []
+    },
+    ".pytest_cache/README.md": {
+      "rel_path": ".pytest_cache/README.md",
+      "size_bytes": 302,
+      "symbols": []
+    },
+    ".pytest_cache/CACHEDIR.TAG": {
+      "rel_path": ".pytest_cache/CACHEDIR.TAG",
+      "size_bytes": 191,
+      "symbols": []
+    },
+    ".pytest_cache/v/cache/nodeids": {
+      "rel_path": ".pytest_cache/v/cache/nodeids",
+      "size_bytes": 481,
+      "symbols": []
+    },
+    ".gemini/settings.json": {
+      "rel_path": ".gemini/settings.json",
+      "size_bytes": 48,
+      "symbols": []
+    }
+  }
+}
