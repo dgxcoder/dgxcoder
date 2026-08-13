@@ -1,5 +1,5 @@
 {
-  "workspace_root": "/home/stan/PycharmProjects/dreamng",
+  "workspace_root": "/home/stan/PycharmProjects/dreamference",
   "symbol_count": 57,
   "file_count": 31,
   "symbols": [
@@ -87,7 +87,7 @@
     {
       "name": "CodeSymbol",
       "symbol_type": "class",
-      "file_path": "dreamng/context_engine.py",
+      "file_path": "dreamference/context_engine.py",
       "line_start": 21,
       "line_end": 28,
       "signature": "class CodeSymbol",
@@ -96,7 +96,7 @@
     {
       "name": "IndexedFile",
       "symbol_type": "class",
-      "file_path": "dreamng/context_engine.py",
+      "file_path": "dreamference/context_engine.py",
       "line_start": 31,
       "line_end": 36,
       "signature": "class IndexedFile",
@@ -105,16 +105,16 @@
     {
       "name": "ContextEngine",
       "symbol_type": "class",
-      "file_path": "dreamng/context_engine.py",
+      "file_path": "dreamference/context_engine.py",
       "line_start": 38,
       "line_end": 243,
       "signature": "class ContextEngine",
-      "docstring": "AST + Vector Indexing Engine for Dreamng zero-egress local code context."
+      "docstring": "AST + Vector Indexing Engine for Dreamference zero-egress local code context."
     },
     {
       "name": "__init__",
       "symbol_type": "function",
-      "file_path": "dreamng/context_engine.py",
+      "file_path": "dreamference/context_engine.py",
       "line_start": 41,
       "line_end": 47,
       "signature": "def __init__(self, workspace_root)",
@@ -123,7 +123,7 @@
     {
       "name": "is_ignored",
       "symbol_type": "function",
-      "file_path": "dreamng/context_engine.py",
+      "file_path": "dreamference/context_engine.py",
       "line_start": 49,
       "line_end": 56,
       "signature": "def is_ignored(self, path)",
@@ -132,7 +132,7 @@
     {
       "name": "tokenize",
       "symbol_type": "function",
-      "file_path": "dreamng/context_engine.py",
+      "file_path": "dreamference/context_engine.py",
       "line_start": 58,
       "line_end": 67,
       "signature": "def tokenize(self, text)",
@@ -141,7 +141,7 @@
     {
       "name": "extract_python_ast",
       "symbol_type": "function",
-      "file_path": "dreamng/context_engine.py",
+      "file_path": "dreamference/context_engine.py",
       "line_start": 69,
       "line_end": 101,
       "signature": "def extract_python_ast(self, file_path, rel_path, content)",
@@ -150,7 +150,7 @@
     {
       "name": "index_workspace",
       "symbol_type": "function",
-      "file_path": "dreamng/context_engine.py",
+      "file_path": "dreamference/context_engine.py",
       "line_start": 103,
       "line_end": 167,
       "signature": "def index_workspace(self, force_reindex)",
@@ -159,7 +159,7 @@
     {
       "name": "search_code",
       "symbol_type": "function",
-      "file_path": "dreamng/context_engine.py",
+      "file_path": "dreamference/context_engine.py",
       "line_start": 169,
       "line_end": 191,
       "signature": "def search_code(self, query, top_k)",
@@ -168,16 +168,16 @@
     {
       "name": "save_index",
       "symbol_type": "function",
-      "file_path": "dreamng/context_engine.py",
+      "file_path": "dreamference/context_engine.py",
       "line_start": 193,
       "line_end": 211,
       "signature": "def save_index(self)",
-      "docstring": "Saves cached index into .dreamng/context_index.json."
+      "docstring": "Saves cached index into .dreamference/context_index.json."
     },
     {
       "name": "load_index",
       "symbol_type": "function",
-      "file_path": "dreamng/context_engine.py",
+      "file_path": "dreamference/context_engine.py",
       "line_start": 213,
       "line_end": 234,
       "signature": "def load_index(self)",
@@ -186,7 +186,7 @@
     {
       "name": "get_summary",
       "symbol_type": "function",
-      "file_path": "dreamng/context_engine.py",
+      "file_path": "dreamference/context_engine.py",
       "line_start": 236,
       "line_end": 243,
       "signature": "def get_summary(self)",
@@ -195,7 +195,7 @@
     {
       "name": "ModelSpec",
       "symbol_type": "class",
-      "file_path": "dreamng/hardware.py",
+      "file_path": "dreamference/hardware.py",
       "line_start": 9,
       "line_end": 16,
       "signature": "class ModelSpec",
@@ -204,7 +204,7 @@
     {
       "name": "get_system_memory",
       "symbol_type": "function",
-      "file_path": "dreamng/hardware.py",
+      "file_path": "dreamference/hardware.py",
       "line_start": 84,
       "line_end": 104,
       "signature": "def get_system_memory()",
@@ -213,7 +213,7 @@
     {
       "name": "detect_gb10_hardware",
       "symbol_type": "function",
-      "file_path": "dreamng/hardware.py",
+      "file_path": "dreamference/hardware.py",
       "line_start": 106,
       "line_end": 161,
       "signature": "def detect_gb10_hardware()",
@@ -222,7 +222,7 @@
     {
       "name": "check_model_compatibility",
       "symbol_type": "function",
-      "file_path": "dreamng/hardware.py",
+      "file_path": "dreamference/hardware.py",
       "line_start": 163,
       "line_end": 178,
       "signature": "def check_model_compatibility(model_key)",
@@ -231,7 +231,7 @@
     {
       "name": "display_header",
       "symbol_type": "function",
-      "file_path": "dreamng/cli.py",
+      "file_path": "dreamference/cli.py",
       "line_start": 23,
       "line_end": 28,
       "signature": "def display_header()",
@@ -240,7 +240,7 @@
     {
       "name": "handle_status",
       "symbol_type": "function",
-      "file_path": "dreamng/cli.py",
+      "file_path": "dreamference/cli.py",
       "line_start": 30,
       "line_end": 80,
       "signature": "def handle_status()",
@@ -249,25 +249,25 @@
     {
       "name": "main",
       "symbol_type": "function",
-      "file_path": "dreamng/cli.py",
+      "file_path": "dreamference/cli.py",
       "line_start": 82,
       "line_end": 184,
       "signature": "def main()",
       "docstring": null
     },
     {
-      "name": "DreamngConfig",
+      "name": "DreamferenceConfig",
       "symbol_type": "class",
-      "file_path": "dreamng/config.py",
+      "file_path": "dreamference/config.py",
       "line_start": 16,
       "line_end": 79,
-      "signature": "class DreamngConfig",
+      "signature": "class DreamferenceConfig",
       "docstring": "Manages GB10 hardware setup and Goose agent configurations."
     },
     {
       "name": "__init__",
       "symbol_type": "function",
-      "file_path": "dreamng/config.py",
+      "file_path": "dreamference/config.py",
       "line_start": 19,
       "line_end": 22,
       "signature": "def __init__(self, vllm_host, model)",
@@ -276,7 +276,7 @@
     {
       "name": "validate_model",
       "symbol_type": "function",
-      "file_path": "dreamng/config.py",
+      "file_path": "dreamference/config.py",
       "line_start": 24,
       "line_end": 26,
       "signature": "def validate_model(self)",
@@ -285,7 +285,7 @@
     {
       "name": "get_env_vars",
       "symbol_type": "function",
-      "file_path": "dreamng/config.py",
+      "file_path": "dreamference/config.py",
       "line_start": 28,
       "line_end": 36,
       "signature": "def get_env_vars(self)",
@@ -294,7 +294,7 @@
     {
       "name": "ensure_goose_config",
       "symbol_type": "function",
-      "file_path": "dreamng/config.py",
+      "file_path": "dreamference/config.py",
       "line_start": 38,
       "line_end": 79,
       "signature": "def ensure_goose_config(self, extra_mcp_servers)",
@@ -303,7 +303,7 @@
     {
       "name": "GooseRunner",
       "symbol_type": "class",
-      "file_path": "dreamng/runner.py",
+      "file_path": "dreamference/runner.py",
       "line_start": 9,
       "line_end": 62,
       "signature": "class GooseRunner",
@@ -312,7 +312,7 @@
     {
       "name": "__init__",
       "symbol_type": "function",
-      "file_path": "dreamng/runner.py",
+      "file_path": "dreamference/runner.py",
       "line_start": 12,
       "line_end": 14,
       "signature": "def __init__(self, config)",
@@ -321,7 +321,7 @@
     {
       "name": "is_goose_installed",
       "symbol_type": "function",
-      "file_path": "dreamng/runner.py",
+      "file_path": "dreamference/runner.py",
       "line_start": 16,
       "line_end": 18,
       "signature": "def is_goose_installed(self)",
@@ -330,7 +330,7 @@
     {
       "name": "run_session",
       "symbol_type": "function",
-      "file_path": "dreamng/runner.py",
+      "file_path": "dreamference/runner.py",
       "line_start": 20,
       "line_end": 62,
       "signature": "def run_session(self, prompt, debug)",
@@ -339,7 +339,7 @@
     {
       "name": "IDEState",
       "symbol_type": "class",
-      "file_path": "dreamng/mcp_server.py",
+      "file_path": "dreamference/mcp_server.py",
       "line_start": 7,
       "line_end": 23,
       "signature": "class IDEState",
@@ -348,7 +348,7 @@
     {
       "name": "MCPServer",
       "symbol_type": "class",
-      "file_path": "dreamng/mcp_server.py",
+      "file_path": "dreamference/mcp_server.py",
       "line_start": 27,
       "line_end": 185,
       "signature": "class MCPServer",
@@ -357,7 +357,7 @@
     {
       "name": "main",
       "symbol_type": "function",
-      "file_path": "dreamng/mcp_server.py",
+      "file_path": "dreamference/mcp_server.py",
       "line_start": 187,
       "line_end": 189,
       "signature": "def main()",
@@ -366,7 +366,7 @@
     {
       "name": "__init__",
       "symbol_type": "function",
-      "file_path": "dreamng/mcp_server.py",
+      "file_path": "dreamference/mcp_server.py",
       "line_start": 9,
       "line_end": 15,
       "signature": "def __init__(self)",
@@ -375,7 +375,7 @@
     {
       "name": "set_active_editor",
       "symbol_type": "function",
-      "file_path": "dreamng/mcp_server.py",
+      "file_path": "dreamference/mcp_server.py",
       "line_start": 17,
       "line_end": 23,
       "signature": "def set_active_editor(self, file_path, line, col, selection)",
@@ -384,7 +384,7 @@
     {
       "name": "__init__",
       "symbol_type": "function",
-      "file_path": "dreamng/mcp_server.py",
+      "file_path": "dreamference/mcp_server.py",
       "line_start": 30,
       "line_end": 31,
       "signature": "def __init__(self)",
@@ -393,7 +393,7 @@
     {
       "name": "handle_request",
       "symbol_type": "function",
-      "file_path": "dreamng/mcp_server.py",
+      "file_path": "dreamference/mcp_server.py",
       "line_start": 33,
       "line_end": 131,
       "signature": "def handle_request(self, request)",
@@ -402,7 +402,7 @@
     {
       "name": "execute_tool",
       "symbol_type": "function",
-      "file_path": "dreamng/mcp_server.py",
+      "file_path": "dreamference/mcp_server.py",
       "line_start": 133,
       "line_end": 169,
       "signature": "def execute_tool(self, tool_name, args)",
@@ -411,7 +411,7 @@
     {
       "name": "run_stdio",
       "symbol_type": "function",
-      "file_path": "dreamng/mcp_server.py",
+      "file_path": "dreamference/mcp_server.py",
       "line_start": 171,
       "line_end": 185,
       "signature": "def run_stdio(self)",
@@ -420,7 +420,7 @@
     {
       "name": "CanvasHandler",
       "symbol_type": "class",
-      "file_path": "dreamng/web_canvas.py",
+      "file_path": "dreamference/web_canvas.py",
       "line_start": 265,
       "line_end": 295,
       "signature": "class CanvasHandler",
@@ -429,16 +429,16 @@
     {
       "name": "start_web_canvas_server",
       "symbol_type": "function",
-      "file_path": "dreamng/web_canvas.py",
+      "file_path": "dreamference/web_canvas.py",
       "line_start": 297,
       "line_end": 303,
       "signature": "def start_web_canvas_server(port, daemon)",
-      "docstring": "Launches local Dreamng Web Canvas UI on specified port."
+      "docstring": "Launches local Dreamference Web Canvas UI on specified port."
     },
     {
       "name": "log_message",
       "symbol_type": "function",
-      "file_path": "dreamng/web_canvas.py",
+      "file_path": "dreamference/web_canvas.py",
       "line_start": 266,
       "line_end": 267,
       "signature": "def log_message(self, format)",
@@ -447,7 +447,7 @@
     {
       "name": "do_GET",
       "symbol_type": "function",
-      "file_path": "dreamng/web_canvas.py",
+      "file_path": "dreamference/web_canvas.py",
       "line_start": 269,
       "line_end": 295,
       "signature": "def do_GET(self)",
@@ -456,7 +456,7 @@
     {
       "name": "VLLMServerManager",
       "symbol_type": "class",
-      "file_path": "dreamng/vllm_server.py",
+      "file_path": "dreamference/vllm_server.py",
       "line_start": 11,
       "line_end": 100,
       "signature": "class VLLMServerManager",
@@ -465,7 +465,7 @@
     {
       "name": "__init__",
       "symbol_type": "function",
-      "file_path": "dreamng/vllm_server.py",
+      "file_path": "dreamference/vllm_server.py",
       "line_start": 14,
       "line_end": 16,
       "signature": "def __init__(self, host)",
@@ -474,7 +474,7 @@
     {
       "name": "check_health",
       "symbol_type": "function",
-      "file_path": "dreamng/vllm_server.py",
+      "file_path": "dreamference/vllm_server.py",
       "line_start": 18,
       "line_end": 25,
       "signature": "def check_health(self, timeout)",
@@ -483,7 +483,7 @@
     {
       "name": "get_models",
       "symbol_type": "function",
-      "file_path": "dreamng/vllm_server.py",
+      "file_path": "dreamference/vllm_server.py",
       "line_start": 27,
       "line_end": 37,
       "signature": "def get_models(self, timeout)",
@@ -492,7 +492,7 @@
     {
       "name": "build_launch_command",
       "symbol_type": "function",
-      "file_path": "dreamng/vllm_server.py",
+      "file_path": "dreamference/vllm_server.py",
       "line_start": 39,
       "line_end": 66,
       "signature": "def build_launch_command(self, model, port, quantization, max_model_len, gpu_memory_utilization)",
@@ -501,7 +501,7 @@
     {
       "name": "start_server",
       "symbol_type": "function",
-      "file_path": "dreamng/vllm_server.py",
+      "file_path": "dreamference/vllm_server.py",
       "line_start": 68,
       "line_end": 89,
       "signature": "def start_server(self, model, port, quantization, background)",
@@ -510,7 +510,7 @@
     {
       "name": "get_server_status",
       "symbol_type": "function",
-      "file_path": "dreamng/vllm_server.py",
+      "file_path": "dreamference/vllm_server.py",
       "line_start": 91,
       "line_end": 100,
       "signature": "def get_server_status(self)",
@@ -528,38 +528,38 @@
       "size_bytes": 409,
       "symbols": []
     },
-    "DREAMNG_SPEC.md": {
-      "rel_path": "DREAMNG_SPEC.md",
+    "DREAMFERENCE_SPEC.md": {
+      "rel_path": "DREAMFERENCE_SPEC.md",
       "size_bytes": 12109,
       "symbols": []
     },
-    "dreamng.egg-info/top_level.txt": {
-      "rel_path": "dreamng.egg-info/top_level.txt",
+    "dreamference.egg-info/top_level.txt": {
+      "rel_path": "dreamference.egg-info/top_level.txt",
       "size_bytes": 9,
       "symbols": []
     },
-    "dreamng.egg-info/dependency_links.txt": {
-      "rel_path": "dreamng.egg-info/dependency_links.txt",
+    "dreamference.egg-info/dependency_links.txt": {
+      "rel_path": "dreamference.egg-info/dependency_links.txt",
       "size_bytes": 1,
       "symbols": []
     },
-    "dreamng.egg-info/SOURCES.txt": {
-      "rel_path": "dreamng.egg-info/SOURCES.txt",
+    "dreamference.egg-info/SOURCES.txt": {
+      "rel_path": "dreamference.egg-info/SOURCES.txt",
       "size_bytes": 395,
       "symbols": []
     },
-    "dreamng.egg-info/entry_points.txt": {
-      "rel_path": "dreamng.egg-info/entry_points.txt",
+    "dreamference.egg-info/entry_points.txt": {
+      "rel_path": "dreamference.egg-info/entry_points.txt",
       "size_bytes": 47,
       "symbols": []
     },
-    "dreamng.egg-info/requires.txt": {
-      "rel_path": "dreamng.egg-info/requires.txt",
+    "dreamference.egg-info/requires.txt": {
+      "rel_path": "dreamference.egg-info/requires.txt",
       "size_bytes": 42,
       "symbols": []
     },
-    "dreamng.egg-info/PKG-INFO": {
-      "rel_path": "dreamng.egg-info/PKG-INFO",
+    "dreamference.egg-info/PKG-INFO": {
+      "rel_path": "dreamference.egg-info/PKG-INFO",
       "size_bytes": 162,
       "symbols": []
     },
@@ -673,14 +673,14 @@
       "size_bytes": 48,
       "symbols": []
     },
-    "dreamng/context_engine.py": {
-      "rel_path": "dreamng/context_engine.py",
+    "dreamference/context_engine.py": {
+      "rel_path": "dreamference/context_engine.py",
       "size_bytes": 9430,
       "symbols": [
         {
           "name": "CodeSymbol",
           "symbol_type": "class",
-          "file_path": "dreamng/context_engine.py",
+          "file_path": "dreamference/context_engine.py",
           "line_start": 21,
           "line_end": 28,
           "signature": "class CodeSymbol",
@@ -689,7 +689,7 @@
         {
           "name": "IndexedFile",
           "symbol_type": "class",
-          "file_path": "dreamng/context_engine.py",
+          "file_path": "dreamference/context_engine.py",
           "line_start": 31,
           "line_end": 36,
           "signature": "class IndexedFile",
@@ -698,16 +698,16 @@
         {
           "name": "ContextEngine",
           "symbol_type": "class",
-          "file_path": "dreamng/context_engine.py",
+          "file_path": "dreamference/context_engine.py",
           "line_start": 38,
           "line_end": 243,
           "signature": "class ContextEngine",
-          "docstring": "AST + Vector Indexing Engine for Dreamng zero-egress local code context."
+          "docstring": "AST + Vector Indexing Engine for Dreamference zero-egress local code context."
         },
         {
           "name": "__init__",
           "symbol_type": "function",
-          "file_path": "dreamng/context_engine.py",
+          "file_path": "dreamference/context_engine.py",
           "line_start": 41,
           "line_end": 47,
           "signature": "def __init__(self, workspace_root)",
@@ -716,7 +716,7 @@
         {
           "name": "is_ignored",
           "symbol_type": "function",
-          "file_path": "dreamng/context_engine.py",
+          "file_path": "dreamference/context_engine.py",
           "line_start": 49,
           "line_end": 56,
           "signature": "def is_ignored(self, path)",
@@ -725,7 +725,7 @@
         {
           "name": "tokenize",
           "symbol_type": "function",
-          "file_path": "dreamng/context_engine.py",
+          "file_path": "dreamference/context_engine.py",
           "line_start": 58,
           "line_end": 67,
           "signature": "def tokenize(self, text)",
@@ -734,7 +734,7 @@
         {
           "name": "extract_python_ast",
           "symbol_type": "function",
-          "file_path": "dreamng/context_engine.py",
+          "file_path": "dreamference/context_engine.py",
           "line_start": 69,
           "line_end": 101,
           "signature": "def extract_python_ast(self, file_path, rel_path, content)",
@@ -743,7 +743,7 @@
         {
           "name": "index_workspace",
           "symbol_type": "function",
-          "file_path": "dreamng/context_engine.py",
+          "file_path": "dreamference/context_engine.py",
           "line_start": 103,
           "line_end": 167,
           "signature": "def index_workspace(self, force_reindex)",
@@ -752,7 +752,7 @@
         {
           "name": "search_code",
           "symbol_type": "function",
-          "file_path": "dreamng/context_engine.py",
+          "file_path": "dreamference/context_engine.py",
           "line_start": 169,
           "line_end": 191,
           "signature": "def search_code(self, query, top_k)",
@@ -761,16 +761,16 @@
         {
           "name": "save_index",
           "symbol_type": "function",
-          "file_path": "dreamng/context_engine.py",
+          "file_path": "dreamference/context_engine.py",
           "line_start": 193,
           "line_end": 211,
           "signature": "def save_index(self)",
-          "docstring": "Saves cached index into .dreamng/context_index.json."
+          "docstring": "Saves cached index into .dreamference/context_index.json."
         },
         {
           "name": "load_index",
           "symbol_type": "function",
-          "file_path": "dreamng/context_engine.py",
+          "file_path": "dreamference/context_engine.py",
           "line_start": 213,
           "line_end": 234,
           "signature": "def load_index(self)",
@@ -779,7 +779,7 @@
         {
           "name": "get_summary",
           "symbol_type": "function",
-          "file_path": "dreamng/context_engine.py",
+          "file_path": "dreamference/context_engine.py",
           "line_start": 236,
           "line_end": 243,
           "signature": "def get_summary(self)",
@@ -787,14 +787,14 @@
         }
       ]
     },
-    "dreamng/hardware.py": {
-      "rel_path": "dreamng/hardware.py",
+    "dreamference/hardware.py": {
+      "rel_path": "dreamference/hardware.py",
       "size_bytes": 6223,
       "symbols": [
         {
           "name": "ModelSpec",
           "symbol_type": "class",
-          "file_path": "dreamng/hardware.py",
+          "file_path": "dreamference/hardware.py",
           "line_start": 9,
           "line_end": 16,
           "signature": "class ModelSpec",
@@ -803,7 +803,7 @@
         {
           "name": "get_system_memory",
           "symbol_type": "function",
-          "file_path": "dreamng/hardware.py",
+          "file_path": "dreamference/hardware.py",
           "line_start": 84,
           "line_end": 104,
           "signature": "def get_system_memory()",
@@ -812,7 +812,7 @@
         {
           "name": "detect_gb10_hardware",
           "symbol_type": "function",
-          "file_path": "dreamng/hardware.py",
+          "file_path": "dreamference/hardware.py",
           "line_start": 106,
           "line_end": 161,
           "signature": "def detect_gb10_hardware()",
@@ -821,7 +821,7 @@
         {
           "name": "check_model_compatibility",
           "symbol_type": "function",
-          "file_path": "dreamng/hardware.py",
+          "file_path": "dreamference/hardware.py",
           "line_start": 163,
           "line_end": 178,
           "signature": "def check_model_compatibility(model_key)",
@@ -829,14 +829,14 @@
         }
       ]
     },
-    "dreamng/cli.py": {
-      "rel_path": "dreamng/cli.py",
+    "dreamference/cli.py": {
+      "rel_path": "dreamference/cli.py",
       "size_bytes": 8768,
       "symbols": [
         {
           "name": "display_header",
           "symbol_type": "function",
-          "file_path": "dreamng/cli.py",
+          "file_path": "dreamference/cli.py",
           "line_start": 23,
           "line_end": 28,
           "signature": "def display_header()",
@@ -845,7 +845,7 @@
         {
           "name": "handle_status",
           "symbol_type": "function",
-          "file_path": "dreamng/cli.py",
+          "file_path": "dreamference/cli.py",
           "line_start": 30,
           "line_end": 80,
           "signature": "def handle_status()",
@@ -854,7 +854,7 @@
         {
           "name": "main",
           "symbol_type": "function",
-          "file_path": "dreamng/cli.py",
+          "file_path": "dreamference/cli.py",
           "line_start": 82,
           "line_end": 184,
           "signature": "def main()",
@@ -862,23 +862,23 @@
         }
       ]
     },
-    "dreamng/config.py": {
-      "rel_path": "dreamng/config.py",
+    "dreamference/config.py": {
+      "rel_path": "dreamference/config.py",
       "size_bytes": 2909,
       "symbols": [
         {
-          "name": "DreamngConfig",
+          "name": "DreamferenceConfig",
           "symbol_type": "class",
-          "file_path": "dreamng/config.py",
+          "file_path": "dreamference/config.py",
           "line_start": 16,
           "line_end": 79,
-          "signature": "class DreamngConfig",
+          "signature": "class DreamferenceConfig",
           "docstring": "Manages GB10 hardware setup and Goose agent configurations."
         },
         {
           "name": "__init__",
           "symbol_type": "function",
-          "file_path": "dreamng/config.py",
+          "file_path": "dreamference/config.py",
           "line_start": 19,
           "line_end": 22,
           "signature": "def __init__(self, vllm_host, model)",
@@ -887,7 +887,7 @@
         {
           "name": "validate_model",
           "symbol_type": "function",
-          "file_path": "dreamng/config.py",
+          "file_path": "dreamference/config.py",
           "line_start": 24,
           "line_end": 26,
           "signature": "def validate_model(self)",
@@ -896,7 +896,7 @@
         {
           "name": "get_env_vars",
           "symbol_type": "function",
-          "file_path": "dreamng/config.py",
+          "file_path": "dreamference/config.py",
           "line_start": 28,
           "line_end": 36,
           "signature": "def get_env_vars(self)",
@@ -905,7 +905,7 @@
         {
           "name": "ensure_goose_config",
           "symbol_type": "function",
-          "file_path": "dreamng/config.py",
+          "file_path": "dreamference/config.py",
           "line_start": 38,
           "line_end": 79,
           "signature": "def ensure_goose_config(self, extra_mcp_servers)",
@@ -913,14 +913,14 @@
         }
       ]
     },
-    "dreamng/runner.py": {
-      "rel_path": "dreamng/runner.py",
+    "dreamference/runner.py": {
+      "rel_path": "dreamference/runner.py",
       "size_bytes": 2530,
       "symbols": [
         {
           "name": "GooseRunner",
           "symbol_type": "class",
-          "file_path": "dreamng/runner.py",
+          "file_path": "dreamference/runner.py",
           "line_start": 9,
           "line_end": 62,
           "signature": "class GooseRunner",
@@ -929,7 +929,7 @@
         {
           "name": "__init__",
           "symbol_type": "function",
-          "file_path": "dreamng/runner.py",
+          "file_path": "dreamference/runner.py",
           "line_start": 12,
           "line_end": 14,
           "signature": "def __init__(self, config)",
@@ -938,7 +938,7 @@
         {
           "name": "is_goose_installed",
           "symbol_type": "function",
-          "file_path": "dreamng/runner.py",
+          "file_path": "dreamference/runner.py",
           "line_start": 16,
           "line_end": 18,
           "signature": "def is_goose_installed(self)",
@@ -947,7 +947,7 @@
         {
           "name": "run_session",
           "symbol_type": "function",
-          "file_path": "dreamng/runner.py",
+          "file_path": "dreamference/runner.py",
           "line_start": 20,
           "line_end": 62,
           "signature": "def run_session(self, prompt, debug)",
@@ -955,14 +955,14 @@
         }
       ]
     },
-    "dreamng/mcp_server.py": {
-      "rel_path": "dreamng/mcp_server.py",
+    "dreamference/mcp_server.py": {
+      "rel_path": "dreamference/mcp_server.py",
       "size_bytes": 7929,
       "symbols": [
         {
           "name": "IDEState",
           "symbol_type": "class",
-          "file_path": "dreamng/mcp_server.py",
+          "file_path": "dreamference/mcp_server.py",
           "line_start": 7,
           "line_end": 23,
           "signature": "class IDEState",
@@ -971,7 +971,7 @@
         {
           "name": "MCPServer",
           "symbol_type": "class",
-          "file_path": "dreamng/mcp_server.py",
+          "file_path": "dreamference/mcp_server.py",
           "line_start": 27,
           "line_end": 185,
           "signature": "class MCPServer",
@@ -980,7 +980,7 @@
         {
           "name": "main",
           "symbol_type": "function",
-          "file_path": "dreamng/mcp_server.py",
+          "file_path": "dreamference/mcp_server.py",
           "line_start": 187,
           "line_end": 189,
           "signature": "def main()",
@@ -989,7 +989,7 @@
         {
           "name": "__init__",
           "symbol_type": "function",
-          "file_path": "dreamng/mcp_server.py",
+          "file_path": "dreamference/mcp_server.py",
           "line_start": 9,
           "line_end": 15,
           "signature": "def __init__(self)",
@@ -998,7 +998,7 @@
         {
           "name": "set_active_editor",
           "symbol_type": "function",
-          "file_path": "dreamng/mcp_server.py",
+          "file_path": "dreamference/mcp_server.py",
           "line_start": 17,
           "line_end": 23,
           "signature": "def set_active_editor(self, file_path, line, col, selection)",
@@ -1007,7 +1007,7 @@
         {
           "name": "__init__",
           "symbol_type": "function",
-          "file_path": "dreamng/mcp_server.py",
+          "file_path": "dreamference/mcp_server.py",
           "line_start": 30,
           "line_end": 31,
           "signature": "def __init__(self)",
@@ -1016,7 +1016,7 @@
         {
           "name": "handle_request",
           "symbol_type": "function",
-          "file_path": "dreamng/mcp_server.py",
+          "file_path": "dreamference/mcp_server.py",
           "line_start": 33,
           "line_end": 131,
           "signature": "def handle_request(self, request)",
@@ -1025,7 +1025,7 @@
         {
           "name": "execute_tool",
           "symbol_type": "function",
-          "file_path": "dreamng/mcp_server.py",
+          "file_path": "dreamference/mcp_server.py",
           "line_start": 133,
           "line_end": 169,
           "signature": "def execute_tool(self, tool_name, args)",
@@ -1034,7 +1034,7 @@
         {
           "name": "run_stdio",
           "symbol_type": "function",
-          "file_path": "dreamng/mcp_server.py",
+          "file_path": "dreamference/mcp_server.py",
           "line_start": 171,
           "line_end": 185,
           "signature": "def run_stdio(self)",
@@ -1042,14 +1042,14 @@
         }
       ]
     },
-    "dreamng/web_canvas.py": {
-      "rel_path": "dreamng/web_canvas.py",
+    "dreamference/web_canvas.py": {
+      "rel_path": "dreamference/web_canvas.py",
       "size_bytes": 9767,
       "symbols": [
         {
           "name": "CanvasHandler",
           "symbol_type": "class",
-          "file_path": "dreamng/web_canvas.py",
+          "file_path": "dreamference/web_canvas.py",
           "line_start": 265,
           "line_end": 295,
           "signature": "class CanvasHandler",
@@ -1058,16 +1058,16 @@
         {
           "name": "start_web_canvas_server",
           "symbol_type": "function",
-          "file_path": "dreamng/web_canvas.py",
+          "file_path": "dreamference/web_canvas.py",
           "line_start": 297,
           "line_end": 303,
           "signature": "def start_web_canvas_server(port, daemon)",
-          "docstring": "Launches local Dreamng Web Canvas UI on specified port."
+          "docstring": "Launches local Dreamference Web Canvas UI on specified port."
         },
         {
           "name": "log_message",
           "symbol_type": "function",
-          "file_path": "dreamng/web_canvas.py",
+          "file_path": "dreamference/web_canvas.py",
           "line_start": 266,
           "line_end": 267,
           "signature": "def log_message(self, format)",
@@ -1076,7 +1076,7 @@
         {
           "name": "do_GET",
           "symbol_type": "function",
-          "file_path": "dreamng/web_canvas.py",
+          "file_path": "dreamference/web_canvas.py",
           "line_start": 269,
           "line_end": 295,
           "signature": "def do_GET(self)",
@@ -1084,19 +1084,19 @@
         }
       ]
     },
-    "dreamng/__init__.py": {
-      "rel_path": "dreamng/__init__.py",
+    "dreamference/__init__.py": {
+      "rel_path": "dreamference/__init__.py",
       "size_bytes": 112,
       "symbols": []
     },
-    "dreamng/vllm_server.py": {
-      "rel_path": "dreamng/vllm_server.py",
+    "dreamference/vllm_server.py": {
+      "rel_path": "dreamference/vllm_server.py",
       "size_bytes": 3403,
       "symbols": [
         {
           "name": "VLLMServerManager",
           "symbol_type": "class",
-          "file_path": "dreamng/vllm_server.py",
+          "file_path": "dreamference/vllm_server.py",
           "line_start": 11,
           "line_end": 100,
           "signature": "class VLLMServerManager",
@@ -1105,7 +1105,7 @@
         {
           "name": "__init__",
           "symbol_type": "function",
-          "file_path": "dreamng/vllm_server.py",
+          "file_path": "dreamference/vllm_server.py",
           "line_start": 14,
           "line_end": 16,
           "signature": "def __init__(self, host)",
@@ -1114,7 +1114,7 @@
         {
           "name": "check_health",
           "symbol_type": "function",
-          "file_path": "dreamng/vllm_server.py",
+          "file_path": "dreamference/vllm_server.py",
           "line_start": 18,
           "line_end": 25,
           "signature": "def check_health(self, timeout)",
@@ -1123,7 +1123,7 @@
         {
           "name": "get_models",
           "symbol_type": "function",
-          "file_path": "dreamng/vllm_server.py",
+          "file_path": "dreamference/vllm_server.py",
           "line_start": 27,
           "line_end": 37,
           "signature": "def get_models(self, timeout)",
@@ -1132,7 +1132,7 @@
         {
           "name": "build_launch_command",
           "symbol_type": "function",
-          "file_path": "dreamng/vllm_server.py",
+          "file_path": "dreamference/vllm_server.py",
           "line_start": 39,
           "line_end": 66,
           "signature": "def build_launch_command(self, model, port, quantization, max_model_len, gpu_memory_utilization)",
@@ -1141,7 +1141,7 @@
         {
           "name": "start_server",
           "symbol_type": "function",
-          "file_path": "dreamng/vllm_server.py",
+          "file_path": "dreamference/vllm_server.py",
           "line_start": 68,
           "line_end": 89,
           "signature": "def start_server(self, model, port, quantization, background)",
@@ -1150,7 +1150,7 @@
         {
           "name": "get_server_status",
           "symbol_type": "function",
-          "file_path": "dreamng/vllm_server.py",
+          "file_path": "dreamference/vllm_server.py",
           "line_start": 91,
           "line_end": 100,
           "signature": "def get_server_status(self)",
