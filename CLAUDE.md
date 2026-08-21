@@ -28,7 +28,7 @@ mkdocs serve
 docker build -t dreamference-vllm-tensorizer:26.07-py3 .
 ```
 
-The CLI entry point is `dream` (`dreamference.cli:main`). Subcommands: `init`, `chat`, `run`, `status`, `index`, `mcp`, `web`, `endpoints`, `search`, `fetch`, `logs request`, `benchmark_server`, `server {start,stop,remove}`, `onyx {start,configure,google-auth,status,logs,stop,uninstall}`, `model {list,download}`, `main-model {set,inspect}`, `clear {model-cache,tensorize-cache}`.
+The CLI entry point is `dream` (`dreamference.cli:main`). Subcommands: `init`, `chat`, `run`, `status`, `index`, `mcp`, `web`, `endpoints`, `search`, `fetch`, `logs request`, `benchmark_server`, `server {start,stop,remove}`, `onyx {start,configure,google-auth,status,logs,stop,uninstall}`, `desktop {run,build,status}`, `model {list,download}`, `main-model {set,inspect}`, `clear {model-cache,tensorize-cache}`.
 
 There is no linter or formatter configured.
 
@@ -42,7 +42,7 @@ Seven subsystems under `dreamference/`, each a package whose `__init__.py` is a 
 | `hardware/` | Model matrix registry, HF downloads/tensorization, GB10 telemetry |
 | `vllm_server/` | Docker vLLM lifecycle, launch-arg construction, host-safety guards |
 | `runner/` | Per-agent installer + runner pairs, sandbox prefixes |
-| `chat/` | Onyx Lite deployment lifecycle and the patches applied to its web UI |
+| `chat/` | Onyx Lite deployment lifecycle, the patches applied to its web UI, and the Tauri desktop shell |
 | `context_engine/` | AST symbol extraction + TF-IDF/dense retrieval |
 | `mcp_server/` | stdio MCP server for JetBrains/VS Code |
 
@@ -95,6 +95,10 @@ The block is appended to *every* stylesheet under `.next`, because Next.js split
 **Image input is a client-side claim, not a server capability.** `Qwen3_5MoeForConditionalGeneration` carries a `vision_config`, so vLLM accepts images for both Qwen3.5-122B entries without being told — but Onyx refuses the upload with *"The current model does not support image input"* unless its own model entry says otherwise. `ModelSpec.supports_vision` records it (verified against each checkpoint's `config.json`, never inferred from the alias), `model_supports_vision()` exposes it, and `configure()` sends it as `supports_image_input` **and** registers `POST /admin/llm/default-vision` — two separate settings, and uploads stay refused if only the first is set.
 
 **Onyx web search is a provider registration, not a prompt.** Unlike the Codex runner — which appends `WEB_ACCESS_INSTRUCTIONS` to the system prompt because Codex has no search tool — Onyx ships **first-class SearXNG support** (`WebSearchProviderType.SEARXNG`, no API key), so `configure()` registers it at `POST /admin/web-search/search-providers` and Onyx's own base prompt already knows to search and then open results. `--no-web` skips it. Two constraints make the alternatives worse and are worth not rediscovering: appending to the prompt is capped at **500 characters** (`user_preferences` is the only global hook — the default assistant is a *builtin* persona and the API refuses to modify one), and reaching SearXNG through the LLM-driven `open_url` tool requires SSRF protection set all the way to `disabled`, since `outbound_allow_private_network()` is true for that level alone. The provider path is admin-configured and its client does no SSRF validation, so it reaches a private container address with the secure `validate_all` default untouched. SearXNG publishes only on `127.0.0.1`, so `_attach_searxng()` joins its container to Onyx's network — the bridge gateway that reaches vLLM does not reach it.
+
+**The desktop app is a window, not a second frontend** (`chat/desktop_runner.py`, project in `desktop/`). The Tauri shell's window points straight at `http://localhost:3000/app`, so there is no bundled UI to keep in step: the desktop app and the browser render the same server, and every patch `dream onyx configure` applies — the typography, the white canvas, the hidden chrome — shows up in both without being ported. What it adds is a launcher entry, an icon and no address bar. The icon set comes from `OnyxBrandAssets.render_app_icon()`, so the window icon and the browser favicon are the same mark.
+
+Three prerequisites, split by **who may install them**: Rust goes under `~/.cargo` per user, so `rustup` is driven from here; the Tauri CLI comes from npm rather than `cargo install tauri-cli`, because npm ships a prebuilt binary for this architecture while cargo would compile it; and the GTK/WebKit **development headers** need root, so the runner prints the `apt` line rather than sudo'ing. The webview itself is never bundled — Tauri renders through the platform's, present here as `libwebkit2gtk-4.1`, and the `-dev` package supplies only the headers to link against it. **The 4.1 series is Tauri v2**; v1 used 4.0, and installing the wrong one fails with a linker error that reads like a missing library. Two ordering details are load-bearing: `run()` checks Onyx is answering *before* the toolchain, because a window opened against a stopped server shows a bare connection error with no hint of what to start; and `_environment()` prepends `~/.cargo/bin` to PATH, because a rustup installed in the same run is on disk but absent from the PATH of the shell that installed it.
 
 **Context engine** writes two artifacts into a gitignored `.dreamference/` at the workspace root: `context_index.json` (AST symbols + TF-IDF) and `context.db` (SQLite with FTS5 virtual tables and sqlite-vec embeddings). Both are rebuilt by `dream index --force`.
 
