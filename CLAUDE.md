@@ -28,7 +28,7 @@ mkdocs serve
 docker build -t dreamference-vllm-tensorizer:26.07-py3 .
 ```
 
-The CLI entry point is `dream` (`dreamference.cli:main`). Subcommands: `init`, `chat`, `run`, `status`, `index`, `mcp`, `web`, `endpoints`, `search`, `fetch`, `logs request`, `benchmark_server`, `server {start,stop,remove}`, `puffin {start,configure,status,logs,stop,uninstall}` (alias: `onyx`), `desktop {install,run,build,status}`, `model {list,download}`, `main-model {set,inspect}`, `diffusion-model {set}`, `clear {model-cache,tensorize-cache}`.
+The CLI entry point is `dream` (`dreamference.cli:main`). A second one, `puffin` (`dreamference.cli:puffin_main`), is `dream chat` under its own name: it prepends `chat` to its arguments and runs the same parser and dispatch, so it has no code of its own to drift. It is unrelated to `dream puffin`, which manages the Onyx web UI. Subcommands: `init`, `chat`, `run`, `status`, `index`, `mcp`, `web`, `endpoints`, `search`, `fetch`, `logs request`, `benchmark_server`, `server {start,stop,remove}`, `puffin {start,configure,status,logs,stop,uninstall}` (alias: `onyx`), `desktop {install,run,build,status}`, `model {list,download}`, `main-model {set,inspect}`, `diffusion-model {set}`, `clear {model-cache,tensorize-cache}`.
 
 There is no linter or formatter configured.
 
