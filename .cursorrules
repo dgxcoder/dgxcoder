@@ -11,7 +11,6 @@ High-impact files (most imported, changes here affect many other files):
 - dreamference/chat/onyx_brand_assets.py (imported by 8 files)
 - dreamference/vllm_server/vllm_server_manager.py (imported by 7 files)
 - dreamference/chat/gmail_search_service.py (imported by 6 files)
-- dreamference/runner/goose_runner.py (imported by 6 files)
 
 Required environment variables (no defaults):
 - DREAMFERENCE_CONFIG_PATH (dreamference/config/config_path_resolver.py)

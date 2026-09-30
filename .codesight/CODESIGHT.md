@@ -61,16 +61,12 @@
 - `dreamference/mcp_server/mcp_server.py` — function main: () -> None, class MCPServer
 - `dreamference/mcp_server/mcp_tool_registry.py` — class MCPToolRegistry
 - `dreamference/mcp_server/web_tools.py` — class WebTools
-- `dreamference/runner/aider_installer.py` — class AiderInstaller
-- `dreamference/runner/aider_runner.py` — class AiderRunner
 - `dreamference/runner/cline_installer.py` — class ClineInstaller
 - `dreamference/runner/cline_runner.py` — class ClineRunner
 - `dreamference/runner/codex_installer.py` — class CodexInstaller
 - `dreamference/runner/codex_runner.py` — class CodexRunner
 - `dreamference/runner/continue_installer.py` — class ContinueInstaller
 - `dreamference/runner/continue_runner.py` — class ContinueRunner
-- `dreamference/runner/goose_installer.py` — class GooseInstaller
-- `dreamference/runner/goose_runner.py` — class GooseRunner
 - `dreamference/runner/openhands_installer.py` — class OpenHandsInstaller
 - `dreamference/runner/openhands_runner.py` — class OpenHandsRunner
 - `dreamference/runner/sandbox_manager.py` — class SandboxManager
@@ -197,7 +193,6 @@
 - `dreamference/chat/onyx_brand_assets.py` — imported by **8** files
 - `dreamference/vllm_server/vllm_server_manager.py` — imported by **7** files
 - `dreamference/chat/gmail_search_service.py` — imported by **6** files
-- `dreamference/runner/goose_runner.py` — imported by **6** files
 - `dreamference/config/dreamference_config.py` — imported by **5** files
 - `dreamference/chat/onyx_ui_overrides.py` — imported by **4** files
 - `dreamference/context_engine.py` — imported by **4** files
@@ -213,14 +208,13 @@
 
 ## Import Map (who imports what)
 
-- `dreamference/hardware.py` ← `dreamference/chat/onyx_runner.py`, `dreamference/cli/dreamference_cli_controller.py`, `dreamference/cli/model_deep_inspector.py`, `dreamference/config/dreamference_config.py`, `dreamference/runner/aider_runner.py` +13 more
-- `dreamference/config.py` ← `dreamference/chat/onyx_runner.py`, `dreamference/cli/dreamference_cli_controller.py`, `dreamference/runner/aider_runner.py`, `dreamference/runner/cline_runner.py`, `dreamference/runner/codex_runner.py` +7 more
-- `dreamference/vllm_server.py` ← `dreamference/chat/onyx_runner.py`, `dreamference/cli/dreamference_cli_controller.py`, `dreamference/runner/aider_runner.py`, `dreamference/runner/cline_runner.py`, `dreamference/runner/codex_runner.py` +6 more
+- `dreamference/hardware.py` ← `dreamference/chat/onyx_runner.py`, `dreamference/cli/dreamference_cli_controller.py`, `dreamference/cli/model_deep_inspector.py`, `dreamference/config/dreamference_config.py`
+- `dreamference/config.py` ← `dreamference/chat/onyx_runner.py`, `dreamference/cli/dreamference_cli_controller.py`, `dreamference/runner/cline_runner.py`, `dreamference/runner/codex_runner.py` +7 more
+- `dreamference/vllm_server.py` ← `dreamference/chat/onyx_runner.py`, `dreamference/cli/dreamference_cli_controller.py`, `dreamference/runner/cline_runner.py`, `dreamference/runner/codex_runner.py` +6 more
 - `dreamference/hardware/model_matrix_registry.py` ← `dreamference/cli/dreamference_cli_controller.py`, `dreamference/config/dreamference_config.py`, `dreamference/hardware/__init__.py`, `dreamference/hardware/hardware_manager.py`, `dreamference/hardware/model_downloader.py` +6 more
 - `dreamference/chat/onyx_brand_assets.py` ← `dreamference/chat/__init__.py`, `dreamference/chat/desktop_runner.py`, `dreamference/chat/onyx_runner.py`, `dreamference/chat/onyx_ui_fonts.py`, `dreamference/chat/onyx_ui_labels.py` +3 more
 - `dreamference/vllm_server/vllm_server_manager.py` ← `dreamference/cli/dreamference_cli_controller.py`, `dreamference/config/dreamference_config.py`, `dreamference/hardware/model_downloader.py`, `dreamference/vllm_server/__init__.py`, `dreamference/vllm_server/diffusion_server_manager.py` +2 more
 - `dreamference/chat/gmail_search_service.py` ← `dreamference/chat/__init__.py`, `dreamference/chat/gmail_credentials.py`, `dreamference/chat/onyx_runner.py`, `dreamference/chat/onyx_ui_scripts.py`, `tests/test_onyx_runner.py` +1 more
-- `dreamference/runner/goose_runner.py` ← `dreamference/runner/__init__.py`, `dreamference/runner/aider_runner.py`, `dreamference/runner/cline_runner.py`, `dreamference/runner/codex_runner.py`, `dreamference/runner/continue_runner.py` +1 more
 - `dreamference/config/dreamference_config.py` ← `dreamference/cli/dreamference_cli_controller.py`, `dreamference/config/__init__.py`, `dreamference/vllm_server/vllm_server_manager.py`, `tests/test_config.py`, `tests/test_vllm_server.py`
 - `dreamference/chat/onyx_ui_overrides.py` ← `dreamference/chat/__init__.py`, `dreamference/chat/onyx_runner.py`, `tests/test_onyx_runner.py`, `tests/test_onyx_ui_scripts.py`
 
