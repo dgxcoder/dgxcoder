@@ -158,7 +158,7 @@ Patterns verified working on this tree:
 ## Conventions
 
 - **One class per file**, file named after the class in snake_case. `__init__.py` does the re-exporting; module files hold no top-level logic beyond constants.
-- **Class-level `@classmethod` over instances** for stateless helpers — the codebase has ~56 classmethods against 16 `__init__`s. `SandboxManager`, `ModelMatrixRegistry`, and the installers are pure classmethod namespaces.
+- **Class-level `@classmethod` over instances** for stateless helpers — the codebase has ~56 classmethods against 16 `__init__`s. `ModelMatrixRegistry` and the installers are pure classmethod namespaces.
 - Module docstrings and full Google-style Args/Returns docstrings on public methods are the norm; match this density.
 - `typing.Final` annotations on module constants.
 - User-facing output goes through `rich` console or emoji-prefixed `print` (`✅ ⚠️ ❌ 🚀 💡`). Match the existing voice in CLI paths.

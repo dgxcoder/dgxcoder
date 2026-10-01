@@ -59,7 +59,6 @@
 - `dreamference/runner/continue_runner.py` — class ContinueRunner
 - `dreamference/runner/openhands_installer.py` — class OpenHandsInstaller
 - `dreamference/runner/openhands_runner.py` — class OpenHandsRunner
-- `dreamference/runner/sandbox_manager.py` — class SandboxManager
 - `dreamference/vllm_server/diagnostics.py` — class ContainerDiagnostics
 - `dreamference/vllm_server/diffusion_openai_service.py`
   - function build_handler: (runner) -> type

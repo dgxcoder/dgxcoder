@@ -69,7 +69,6 @@
 - `dreamference/runner/continue_runner.py` — class ContinueRunner
 - `dreamference/runner/openhands_installer.py` — class OpenHandsInstaller
 - `dreamference/runner/openhands_runner.py` — class OpenHandsRunner
-- `dreamference/runner/sandbox_manager.py` — class SandboxManager
 - `dreamference/vllm_server/diagnostics.py` — class ContainerDiagnostics
 - `dreamference/vllm_server/diffusion_openai_service.py`
   - function build_handler: (runner) -> type
@@ -161,7 +160,6 @@
 - `DREAMFERENCE_DRAFT_MODEL` (has default) — dreamference/config/dreamference_config.py
 - `DREAMFERENCE_HF_TOKEN` **required** — dreamference/hardware/model_downloader.py
 - `DREAMFERENCE_MODEL` **required** — dreamference/config/dreamference_config.py
-- `DREAMFERENCE_SANDBOX` (has default) — dreamference/config/dreamference_config.py
 - `DREAMFERENCE_SEARXNG_URL` (has default) — dreamference/mcp_server/web_tools.py
 - `DREAMFERENCE_SPECULATIVE_TOKENS` **required** — dreamference/config/dreamference_config.py
 - `DREAMFERENCE_USE_TENSORIZER` **required** — dreamference/config/dreamference_config.py
