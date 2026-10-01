@@ -34,7 +34,7 @@ There is no linter or formatter configured.
 
 ## Architecture
 
-Seven subsystems under `dreamference/`, each a package whose `__init__.py` is a re-export facade with an explicit `__all__`:
+Eight subsystems under `dreamference/`, each a package whose `__init__.py` is a re-export facade with an explicit `__all__`:
 
 | Package | Role |
 | --- | --- |
@@ -45,6 +45,7 @@ Seven subsystems under `dreamference/`, each a package whose `__init__.py` is a 
 | `chat/` | Onyx Lite deployment lifecycle, the patches applied to its web UI, and the Tauri desktop shell |
 | `context_engine/` | AST symbol extraction + TF-IDF/dense retrieval |
 | `mcp_server/` | stdio MCP server for JetBrains/VS Code |
+| `night_shift/` | Night Shift: the overnight queue runner, its host probes, report and timer |
 
 **Config precedence** (`config/dreamference_config.py`) — every field resolves through the same 4-step chain, in `DreamferenceConfig.__init__`: constructor kwarg → `DREAMFERENCE_*` env var → `dreamference.toml` (local, then `~/.config/dreamference/config.toml`) → module-level `DEFAULT_*` constant. `save_config()` deliberately writes only values that differ from the defaults, so a round-trip does not fossilize defaults into the TOML.
 
@@ -52,7 +53,7 @@ Seven subsystems under `dreamference/`, each a package whose `__init__.py` is a 
 
 **A model may pin its own vLLM image.** `launch_overrides['docker_image']` overrides `DEFAULT_VLLM_IMAGE` for that model alone, because the engine is part of a recipe just as much as the flags are — `qwen3.5-122b-a10b-int4-dflash` runs on the thread's `ghcr.io/aeon-7/aeon-vllm-ultimate` build because the project image's vLLM trips a KV page-size assert on the DFlash drafter. Two consequences worth knowing before touching this: `ensure_docker_image()` *pulls* anything registry-qualified (a `/` in the name) and only *builds* the project's own bare-tag image, and `probe_image()` deliberately does not acquire an image — it reports on one that is already present, because it is called from `build_launch_command`, where a missing image must not start a multi-gigabyte download.
 
-**Model matrix is the source of truth for launch flags.** `hardware/model_matrix_registry.py` holds `MATRIX: Dict[str, ModelSpec]`, and each spec carries `launch_overrides`. `VLLMServerManager.build_launch_command()` layers these over the generic defaults, so per-model vLLM tuning (context length, memory ratio, attention/MoE backend, tool-call and reasoning parsers, speculative config) belongs in the registry entry, **not** in the launch builder. Tests assert this layering directly. Speculation reaches vLLM only as `--speculative-config` JSON, built by `resolve_speculative_config()`: vLLM 0.2x has no `--speculative-model`/`--num-speculative-tokens` flags. A `--draft-model` is layered onto a recipe that already names an external drafter (keeping its method and attention backend) and replaces a self-speculation (MTP) recipe outright; a depth override applies only together with `--draft-model`. The compile-cache signature goes through the same function, so it tracks the launched depth, not the recipe's.
+**Model matrix is the source of truth for launch flags.** `hardware/model_matrix_registry.py` holds `ModelMatrixRegistry.MATRIX: Dict[str, ModelSpec]`, and each spec carries `launch_overrides`. `VLLMServerManager.build_launch_command()` layers these over the generic defaults, so per-model vLLM tuning (context length, memory ratio, attention/MoE backend, tool-call and reasoning parsers, speculative config) belongs in the registry entry, **not** in the launch builder. Tests assert this layering directly. Speculation reaches vLLM only as `--speculative-config` JSON, built by `resolve_speculative_config()`: vLLM 0.2x has no `--speculative-model`/`--num-speculative-tokens` flags. A `--draft-model` is layered onto a recipe that already names an external drafter (keeping its method and attention backend) and replaces a self-speculation (MTP) recipe outright; a depth override applies only together with `--draft-model`. The compile-cache signature goes through the same function, so it tracks the launched depth, not the recipe's.
 
 **Runner dispatch is a strategy switch on `config.agent_runner`** in `cli/dreamference_cli_controller.py` (~line 346). Each agent has a matching `<agent>_installer.py` / `<agent>_runner.py` pair. Every runner follows the same shape: check vLLM health → provision the agent CLI if missing → translate Dreamference config into that agent's own CLI flags → `subprocess.call`. Adding an agent means adding the pair, exporting both from `runner/__init__.py`, and extending the dispatch chain. Runners other than Codex wait for the server with `VLLMReadinessWaiter`; the `puffin` launcher does its own waiting.
 
