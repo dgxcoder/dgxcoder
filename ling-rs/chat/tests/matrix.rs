@@ -22,7 +22,7 @@ use serde_json::json;
 use tokio::sync::mpsc;
 
 const BOT: &str = "@mightling:node.tail.ts.net";
-const STAN: &str = "@stan:node.tail.ts.net";
+const OWNER: &str = "@owner:node.tail.ts.net";
 
 #[derive(Clone, Default)]
 struct Stand {
@@ -98,7 +98,7 @@ async fn stand_in() -> (Stand, String) {
 fn setup(tag: &str, root: &str) -> (std::path::PathBuf, MatrixConfig) {
     let dir = std::env::temp_dir().join(format!("ling-chat-mx-{tag}-{}", std::process::id()));
     let _ = std::fs::remove_dir_all(&dir);
-    let config = json!({ "homeserver": root, "server_name": "node.tail.ts.net", "user_id": BOT, "access_token": "bot-token", "allowed": [STAN] });
+    let config = json!({ "homeserver": root, "server_name": "node.tail.ts.net", "user_id": BOT, "access_token": "bot-token", "allowed": [OWNER] });
     write_private(&MatrixConfig::path(&dir), &config.to_string()).unwrap();
     (dir.clone(), MatrixConfig::load(&dir).unwrap())
 }
@@ -124,9 +124,9 @@ async fn invites_are_accepted_from_allowed_users_only_and_encrypted_rooms_refuse
     let (dir, config) = setup("invites", &root);
     let (hub, _inbound) = mpsc::unbounded_channel();
     let (syncer, _) = ling_chat::matrix::pair_for_tests(MatrixApi::new(&root, "bot-token"), dir, BOT, hub);
-    syncer.handle(&config, &invite("!ok:x", STAN, false), false).await;
+    syncer.handle(&config, &invite("!ok:x", OWNER, false), false).await;
     syncer.handle(&config, &invite("!stranger:x", "@eve:elsewhere", false), false).await;
-    syncer.handle(&config, &invite("!secret:x", STAN, true), false).await;
+    syncer.handle(&config, &invite("!secret:x", OWNER, true), false).await;
     let joins: Vec<String> = stand.calls("POST", "/join/").into_iter().map(|(p, _)| p).collect();
     assert_eq!(joins, vec!["/_matrix/client/v3/join/!ok:x", "/_matrix/client/v3/join/!secret:x"]);
     let leaves: Vec<String> = stand.calls("POST", "/leave").into_iter().map(|(p, _)| p).collect();
@@ -144,9 +144,9 @@ async fn messages_from_allowed_users_reach_the_hub_after_the_first_sync() {
     let (hub, mut inbound) = mpsc::unbounded_channel();
     let (syncer, _) = ling_chat::matrix::pair_for_tests(MatrixApi::new(&root, "bot-token"), dir, BOT, hub);
     // The first sync is history: not answered.
-    syncer.handle(&config, &message("!dm:x", STAN, "old question"), true).await;
+    syncer.handle(&config, &message("!dm:x", OWNER, "old question"), true).await;
     assert!(inbound.try_recv().is_err());
-    syncer.handle(&config, &message("!dm:x", STAN, "new question"), false).await;
+    syncer.handle(&config, &message("!dm:x", OWNER, "new question"), false).await;
     assert_eq!(inbound.try_recv().unwrap(), Inbound::Text { chat: "matrix:!dm:x".into(), text: "new question".into() });
     // The bot's own messages and other senders are ignored.
     syncer.handle(&config, &message("!dm:x", BOT, "an answer"), false).await;
@@ -161,10 +161,10 @@ async fn a_room_with_a_third_member_or_encryption_is_left() {
     let (dir, config) = setup("crowd", &root);
     let (hub, mut inbound) = mpsc::unbounded_channel();
     let (syncer, _) = ling_chat::matrix::pair_for_tests(MatrixApi::new(&root, "bot-token"), dir, BOT, hub);
-    let mut crowded = message("!crowd:x", STAN, "hello all");
+    let mut crowded = message("!crowd:x", OWNER, "hello all");
     crowded["rooms"]["join"]["!crowd:x"]["summary"]["m.joined_member_count"] = json!(3);
     syncer.handle(&config, &crowded, false).await;
-    let mut encrypted = message("!enc:x", STAN, "secret");
+    let mut encrypted = message("!enc:x", OWNER, "secret");
     encrypted["rooms"]["join"]["!enc:x"]["state"] = json!({ "events": [{ "type": "m.room.encryption", "state_key": "", "content": {} }] });
     syncer.handle(&config, &encrypted, false).await;
     assert!(inbound.try_recv().is_err());
@@ -202,7 +202,7 @@ async fn answers_are_formatted_typing_is_renewed_and_reactions_answer_approvals(
     let reaction = |key: &str| {
         json!({ "next_batch": "s9", "rooms": { "join": { "!dm:x": {
             "summary": { "m.joined_member_count": 2 },
-            "timeline": { "events": [{ "type": "m.reaction", "sender": STAN, "content": { "m.relates_to": { "rel_type": "m.annotation", "event_id": approval_event, "key": key } } }] },
+            "timeline": { "events": [{ "type": "m.reaction", "sender": OWNER, "content": { "m.relates_to": { "rel_type": "m.annotation", "event_id": approval_event, "key": key } } }] },
         } } } })
     };
     syncer.handle(&config, &reaction("🎉"), false).await;
@@ -233,11 +233,11 @@ async fn the_bridge_opens_a_room_per_allowed_user_and_keeps_its_place() {
     std::fs::remove_file(MatrixConfig::path(&dir)).unwrap();
     tokio::time::timeout(Duration::from_secs(5), task).await.unwrap().unwrap();
     let state = MatrixState::load(&dir);
-    assert_eq!(state.rooms.get(STAN).map(String::as_str), Some("!dm:node.tail.ts.net"));
+    assert_eq!(state.rooms.get(OWNER).map(String::as_str), Some("!dm:node.tail.ts.net"));
     assert!(state.next_batch.is_some());
     let created = stand.calls("POST", "/createRoom");
     assert_eq!(created.len(), 1, "one room per user, not one per sync");
-    assert_eq!(created[0].1, json!({ "is_direct": true, "preset": "private_chat", "invite": [STAN], "name": "Mightling" }));
+    assert_eq!(created[0].1, json!({ "is_direct": true, "preset": "private_chat", "invite": [OWNER], "name": "Mightling" }));
     // The second sync continues from where the first ended.
     let syncs = stand.calls("GET", "/sync");
     assert!(syncs.len() >= 2);

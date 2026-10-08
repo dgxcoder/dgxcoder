@@ -147,14 +147,14 @@ def test_the_server_name_is_chosen_once_and_a_renamed_machine_is_refused(machine
 def test_add_user_prints_the_password_once_and_stores_none(machine, capsys):
     assert MatrixHomeserver.start() == 0
     capsys.readouterr()
-    assert MatrixHomeserver.add_user("stan") == 0
+    assert MatrixHomeserver.add_user("owner") == 0
     out = capsys.readouterr().out
-    register = [body for method, url, body in machine.http if url.endswith("/register") and body and body.get("username") == "stan"]
+    register = [body for method, url, body in machine.http if url.endswith("/register") and body and body.get("username") == "owner"]
     password = register[-1]["password"]
     assert password in out
     for name in os.listdir(MatrixHomeserver.chat_dir()):
         assert password not in open(MatrixHomeserver._path(name)).read(), name
-    assert json.load(open(MatrixHomeserver._path("matrix.json")))["allowed"] == ["@stan:node.tail1234.ts.net"]
+    assert json.load(open(MatrixHomeserver._path("matrix.json")))["allowed"] == ["@owner:node.tail1234.ts.net"]
     assert MatrixHomeserver.add_user("Bad Name") == 2
 
 
@@ -181,11 +181,24 @@ def test_remove_needs_yes_and_then_deletes_everything(machine):
     assert not os.path.exists(MatrixHomeserver._path("matrix-admin.json"))
 
 
+def test_stop_turns_it_off_until_the_next_start(machine):
+    # Off means off across a reboot: the socket is disabled, not only stopped, and the tailnet no
+    # longer offers the name. The accounts stay.
+    assert MatrixHomeserver.start() == 0
+    machine.runs.clear()
+    assert MatrixHomeserver.stop() == 0
+    assert machine.argv("tailscale", "serve", "--https=443", "off")
+    assert machine.argv("systemctl", "--user", "disable", "--now", mh.PROXY_SOCKET_UNIT)
+    assert machine.argv("docker", "stop", mh.MATRIX_CONTAINER)
+    assert not any("volume" in argv for argv in machine.runs)
+    assert os.path.exists(MatrixHomeserver._path("matrix-admin.json"))
+
+
 def test_the_cli_routes_matrix_commands(machine, monkeypatch):
     from dreamference.cli.dreamference_cli_controller import DreamferenceCLIController
     called = []
     monkeypatch.setattr(MatrixHomeserver, "add_user", classmethod(lambda cls, name: called.append(name) or 0))
     with pytest.raises(SystemExit) as exit_info:
-        DreamferenceCLIController.run_cli(["matrix", "add-user", "stan"])
+        DreamferenceCLIController.run_cli(["matrix", "add-user", "owner"])
     assert exit_info.value.code == 0
-    assert called == ["stan"]
+    assert called == ["owner"]

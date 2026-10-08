@@ -294,13 +294,13 @@ mod tests {
     #[test]
     fn matrix_needs_a_homeserver_a_user_and_a_token() {
         let dir = scratch("matrix");
-        write_private(&MatrixConfig::path(&dir), r#"{"homeserver":"http://127.0.0.1:6167","user_id":"@mightling:x","access_token":"t","allowed":["@stan:x"]}"#).unwrap();
+        write_private(&MatrixConfig::path(&dir), r#"{"homeserver":"http://127.0.0.1:6167","user_id":"@mightling:x","access_token":"t","allowed":["@owner:x"]}"#).unwrap();
         let config = MatrixConfig::load(&dir).unwrap();
-        assert_eq!(config.allowed, vec!["@stan:x".to_string()]);
+        assert_eq!(config.allowed, vec!["@owner:x".to_string()]);
         write_private(&MatrixConfig::path(&dir), r#"{"homeserver":"http://127.0.0.1:6167"}"#).unwrap();
         assert_eq!(MatrixConfig::load(&dir), None);
         let mut state = MatrixState { next_batch: Some("s1".to_string()), ..Default::default() };
-        state.rooms.insert("@stan:x".to_string(), "!r:x".to_string());
+        state.rooms.insert("@owner:x".to_string(), "!r:x".to_string());
         state.save(&dir).unwrap();
         assert_eq!(MatrixState::load(&dir), state);
     }
