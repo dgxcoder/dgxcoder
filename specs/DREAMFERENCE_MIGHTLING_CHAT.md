@@ -170,7 +170,7 @@ From the phone, in Element X (Matrix) or Telegram, a private chat with **Mightli
 
 - **With Tailscale (the decided route).**
   - **The setup check:** `ling-admin matrix start` finds Tailscale running and signed in (`tailscale status --json`). It takes the node's tailnet name (`Self.DNSName` without its trailing dot, for example `gx10-9428.tail1234.ts.net`) as the **server name**, and runs `tailscale serve --bg --https=443 http://127.0.0.1:6167`.
-  - **The server name is permanent.** Every account's id ends in it (`@stan:gx10-9428.tail1234.ts.net`), and Matrix has no way to rename a server. It is chosen once, stored in `matrix.json`, and passed to the container on every start. Renaming the machine, or moving it to another tailnet, changes its tailnet name: from then on `start` refuses, naming both names. The user either renames the machine back, or removes the homeserver (`ling-admin matrix remove`, which deletes the volume) and starts again with new accounts.
+  - **The server name is permanent.** Every account's id ends in it (`@owner:gx10-9428.tail1234.ts.net`), and Matrix has no way to rename a server. It is chosen once, stored in `matrix.json`, and passed to the container on every start. Renaming the machine, or moving it to another tailnet, changes its tailnet name: from then on `start` refuses, naming both names. The user either renames the machine back, or removes the homeserver (`ling-admin matrix remove`, which deletes the volume) and starts again with new accounts.
   - **Signing in:** the phone, with Tailscale installed and signed in to the same tailnet, signs in to `https://<tailnet name>` in Element X.
   - **The certificate:** a real one, issued by Let's Encrypt through Tailscale. This needs HTTPS turned on once in the tailnet's admin console, and the command says so when it is off.
   - **The privacy cost:** the tailnet name appears in public Certificate Transparency logs. The name is public; nothing about messages is.
@@ -321,7 +321,7 @@ All tests use stand-ins. None reaches Telegram, a homeserver, `ling web` or Dock
   - Work threads on a repository chosen from the phone, with approvals;
   - other messengers, if users ask (Signal through `signal-cli` is the obvious next, with the caveats its own project states).
 
-## 14. What was built (Phase 1, branch `chat/messengers`, 2026-10-08; not merged)
+## 14. What was built (Phase 1, branch `chat/messengers`, 2026-10-08; merged with §15)
 
 **Built:**
 
@@ -365,3 +365,38 @@ All tests use stand-ins. None reaches Telegram, a homeserver, `ling web` or Dock
 - **The user units** (`mightling-chat.service` and the proxy units) were written only in tests and never started.
 - **`ling chat telegram setup`'s terminal path** (consent, the token with echo off) was not run.
 - **Privacy, still to decide:** a Telegram thread is an Ask thread with `/apps` and `docs_*`, so mail and file contents can reach Telegram's servers in an answer. The warning says so. A Telegram-specific prompt without those tools is a possible Phase 2 step if the user wants it.
+
+## 15. Merged, off by default (branch `messengers/optional`, 2026-10-08)
+
+The user decided that the messenger bridges ship with Mightling, are off by default and are turned on per machine by a command. This section records what merging into `main` changed, together with Signal (SIGNAL §17).
+
+**The command surface stays as built.**
+- `ling chat …` is a launcher subcommand, like `ling web`. The bridge is a library linked into `ling`, so there is no separate binary to ship.
+- The homeserver is `ling-admin matrix …`, because containers are `ling-admin`'s, and `ling-admin chat` is the web UI.
+- There is no `ling chat matrix` alias: one command for one thing.
+
+**Compiled at last.**
+- The launcher workspace, with `ling-chat` linked in, built in a scratch export of the pinned Codex.
+- `cargo test --release -p ling-chat` and the launcher's tests ran there. The counts are in the merge's commit message.
+- §14's "the launcher was not compiled" no longer holds.
+
+**Off means off across a reboot.**
+- `ling chat stop` now disables `mightling-chat.service` as well as stopping it.
+- `ling-admin matrix stop` now:
+  - turns `tailscale serve` off;
+  - disables the proxy socket, not only stops it;
+  - stops the container (whose `unless-stopped` policy keeps it stopped).
+- `start` turns each of these on again.
+- Nothing in the installer, Night Shift or `node enable` starts either one.
+
+**The egress audit names each bridge that is on** (`EgressAudit.declared_exceptions`):
+- the chat bridge's user unit, when it is enabled with a Telegram token (Telegram's Bot API, outside the trace);
+- the Matrix proxy socket, when it is enabled (offered to the tailnet by `tailscale serve`; with push on, push notifications can leave).
+
+With Matrix alone, the chat bridge talks only to loopback and is not an exception. With every bridge off, the audit names nothing, and the report is what it was before the bridges existed. Each case is tested.
+
+**Release packaging.**
+- Nothing new ships for Matrix and Telegram. `ling-chat` is inside `ling`, `ling-admin matrix` is in the wheel, and the tuwunel image is pinned by digest and pulled only by `ling-admin matrix start`.
+- The release job runs the crate's tests in the build's export.
+
+**Not verified:** everything §14 lists, apart from compiling the launcher. Also not run: the live egress audit with any bridge on, which needs the model server.
