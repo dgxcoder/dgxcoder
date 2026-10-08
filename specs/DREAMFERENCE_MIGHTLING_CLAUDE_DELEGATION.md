@@ -192,7 +192,7 @@ Every delegation is recorded under `~/.mightling/delegate/`: the brief, the answ
 
 `ling exec` writes its progress to the terminal, and the launcher prints a waiting line while the server loads. Whatever the shell command prints enters Claude's context and is paid for about 40 times. So:
 
-- **Phase 0 recipe:** `ling exec ... -o "$out" >/dev/null 2>&1; cat "$out"`.
+- **Phase 0 recipe:** `ling exec ... -o "$out" >/dev/null 2>&1; cat "$out"`. On a machine where a shell hook rewrites commands (this one runs RTK, which prefixes every command with `rtk`), Phase 0 checks that the recipe's one line of output passes through unchanged.
 - **Phase 1:** `ling delegate` prints exactly one JSON object and nothing else, capped at 1,500 tokens (the evidence list is truncated, and the truncation is said in a field).
 
 ---
@@ -223,7 +223,7 @@ Every delegation is recorded under `~/.mightling/delegate/`: the brief, the answ
 
 ## 9. How "the same answers" is measured
 
-**Phase 0a: the ceiling, from transcripts (done in §2).** It is repeated after a month of use, so the shares can be compared before and after.
+**Phase 0a: the ceiling, from transcripts (done in §2).** It is repeated after two weeks of use (the field check below).
 
 **Phase 0b: a replay benchmark for `find`.**
 1. Sample 60 exploration runs (§2.3) from the transcripts, stratified by length.
