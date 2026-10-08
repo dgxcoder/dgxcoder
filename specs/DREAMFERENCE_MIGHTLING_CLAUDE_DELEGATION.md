@@ -109,7 +109,7 @@ Claude alone costs about k·0.1·C + t·w. A foreground delegation costs 0.1·C 
 
 **Worked example** at this machine's medians (C = 305k, R = 39.5, w = 5.2): an exploration Claude would do in five calls that bring back 6k tokens, replaced by a 300-token brief and an 800-token result. Saved: 4 × 30.5k + 5.2k × 5.2 ≈ 149k. Spent: 300 × 10.2 ≈ 3k. Net ≈ **146k token-equivalents**, about five Claude calls.
 
-**Where it does not pay:** one *small* lookup never pays; a deterministic tool (`ling-code refs`, `rg`) answers it in one call for less. A single *large* output does pay with k = 1, through the (t − r)·w term: a 20k-token output replaced by a 1k digest saves about 99k. That is the `digest` case. At a small context (a fresh session, C ≈ 30k) the per-call term shrinks tenfold and only large t makes delegation worth it. The skill (§8) encodes this as: **delegate when you expect three or more search/read calls, or more than ~5k tokens of output, to answer one question.**
+**Where it does not pay:** one *small* lookup never pays; a deterministic tool (`ling-code refs`, `rg`) answers it in one call for less. A single *large* output does pay with k = 1, through the (t − r)·w term: a 20k-token output replaced by a 1k digest saves 19k × 5.2 ≈ 99k, about 96k after a 300-token brief. That is the `digest` case. At a small context (a fresh session, C ≈ 30k) the per-call term shrinks tenfold and only large t makes delegation worth it. The skill (§8) encodes this as: **delegate when you expect three or more search/read calls, or more than ~5k tokens of output, to answer one question.**
 
 ---
 
