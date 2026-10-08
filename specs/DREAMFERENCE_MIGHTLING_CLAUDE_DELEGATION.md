@@ -56,14 +56,14 @@
 | | |
 |---|---|
 | Context per call | median **305k** tokens, p90 686k |
-| Reads per token written to the cache | 39.5 on average |
+| Cache reads per token written | 39.5 (a ratio of totals; writes include whole-prefix rewrites after a cache expiry, so this understates how often a *unique* token is read) |
 | Subagents' share of cost | **60%** (main sessions 40%) |
 
 A token that enters Claude's context costs about 1.25 + 39.5 × 0.1 ≈ **5.2** input-token-equivalents over its life, and each further Claude call costs about 0.1 × 305k ≈ **30k** before it adds anything.
 
 ### 2.2 What the calls do
 
-Each response was classed by its first tool call (heuristic patterns on the command; the classes overlap at the edges):
+Each response was classed by its first tool call (heuristic patterns on the command; the classes overlap at the edges). "Search or read" is broad: it includes `cat`, `ls`, `head` and `git diff` used to look at things, not only searches, so 38.7% is not all exploration:
 
 | Class | Share of cost | Calls |
 |---|---|---|
@@ -109,7 +109,7 @@ Claude alone costs about k·0.1·C + t·w. A foreground delegation costs 0.1·C 
 
 **Worked example** at this machine's medians (C = 305k, R = 39.5, w = 5.2): an exploration Claude would do in five calls that bring back 6k tokens, replaced by a 300-token brief and an 800-token result. Saved: 4 × 30.5k + 5.2k × 5.2 ≈ 149k. Spent: 300 × 10.2 ≈ 3k. Net ≈ **146k token-equivalents**, about five Claude calls.
 
-**Where it does not pay:** one lookup (k = 1) never pays; a deterministic tool (`ling-code refs`, `rg`) answers in one call for less. At a small context (a fresh session, C ≈ 30k) the per-call term shrinks tenfold and only large t makes delegation worth it. The skill (§8) encodes this as: **delegate when you expect three or more search/read calls, or more than ~5k tokens of output, to answer one question.**
+**Where it does not pay:** one *small* lookup never pays; a deterministic tool (`ling-code refs`, `rg`) answers it in one call for less. A single *large* output does pay with k = 1, through the (t − r)·w term: a 20k-token output replaced by a 1k digest saves about 99k. That is the `digest` case. At a small context (a fresh session, C ≈ 30k) the per-call term shrinks tenfold and only large t makes delegation worth it. The skill (§8) encodes this as: **delegate when you expect three or more search/read calls, or more than ~5k tokens of output, to answer one question.**
 
 ---
 
@@ -182,7 +182,7 @@ Every delegation is recorded under `~/.mightling/delegate/`: the brief, the answ
 
 - **Model server:** this machine's (`DREAMFERENCE_VLLM_HOST` is set explicitly, so no network browse happens). Never `second-puffin`.
 - **Concurrency:** the server runs at most 8 requests at once. A delegation is one more agent; Night Shift gives way to it, as it does to any outside request.
-- **During a SWE-bench run** (the runner lock names its holder), a delegation refuses at once with `busy: benchmark running` and Claude works alone. Benchmark timing must not be disturbed.
+- **During a SWE-bench run** (the runner lock, `$CODEX_HOME/night/runner.lock`, names its holder), a delegation refuses at once with `busy: benchmark running` and Claude works alone. Benchmark timing must not be disturbed. Phase 0's script does this check; Phase 1 moves it into `ling delegate`.
 - **Latency:** the local model generates about 30 tokens/s on agent work and prefills about 1,700 tokens/s. A `find` is expected to take 30–120 s. Claude Code's shell tool waits up to 10 minutes in the foreground. A delegation longer than about 2 minutes runs in the background, and its completion notice is Claude's next turn, so the wait itself costs no calls.
 - **Sandbox:** `find` runs read-only and needs no network. It works under `/airgapped on`. If Claude Code's own sandbox is enabled, `ling` must be in its excluded commands, because a sandbox inside Claude Code's sandbox cannot create its own namespaces. This is to be confirmed in Phase 0.
 
@@ -199,16 +199,20 @@ Every delegation is recorded under `~/.mightling/delegate/`: the brief, the answ
 
 ## 8. Phases
 
-**Phase 0: a skill and a recipe (no Mightling code).**
+**Phase 0: a skill and a recipe (no Mightling code).** Its first step decides whether the rest of Phase 0 works as written: one `ling exec --ephemeral -s read-only --output-schema … -o …` against this machine's server, to see whether the schema reaches SGLang through the local provider and constrains the answer. `--output-schema` exists in the source, but whether the chat-completions path forwards it is not known. If it does not, the script validates the JSON itself and treats a non-conformant answer as a failure (fail open); the schema still goes into the brief as text.
 - **The skill:** `~/.claude/skills/ling-delegate/SKILL.md`. Its description is one sentence: "Answer a code question that needs three or more searches by asking the local model; quotes are verified, prose is a hint". Its body holds the break-even rule (§3), the brief template, the rules of §5.1, the output hygiene of §7 and the fail-open rule.
-- **The schema:** the skill folder holds `find.schema.json` and a 40-line script that runs `ling exec --ephemeral -s read-only -C <repo> --output-schema find.schema.json -o <file>` and checks the quotes (§5.1).
+- **The schema and the script:** the skill folder holds `find.schema.json` and a short script that:
+  - refuses at once when `$CODEX_HOME/night/runner.lock` is held (a non-blocking `flock`) and the holder it names is a SWE-bench run, and goes ahead when it is a Night Shift run, which gives way by itself (§6);
+  - runs `ling exec --ephemeral -s read-only -C <repo> --output-schema find.schema.json -o <file>`, with `DREAMFERENCE_VLLM_HOST` set and all terminal output discarded (§7);
+  - validates the JSON, checks the quotes (§5.1) and prints one JSON object.
 - **Two conflicts handled at install:**
-  - **Mightling's own planner would link this skill back into `ling`'s catalogue,** because it links `~/.claude/skills`. The skill would then tell `ling` to delegate to itself. The planner gets a fixed rule: a skill named `ling-delegate` is never offered to `ling`.
+  - **Mightling's own planner would link this skill back into `ling`'s catalogue,** because it links `~/.claude/skills`. The skill would then tell `ling` to delegate to itself. The install step runs `ling skill disable ling-delegate`, an existing command whose `disabled` list means "never offered" ([MIGHTLING_SKILLS](./DREAMFERENCE_MIGHTLING_SKILLS.md)); Phase 1 makes that exclusion built in.
   - **A user's own CLAUDE.md may prescribe another exploration tool** (on this machine, jCodeMunch "for all code navigation"). The skill does not override it. The install step suggests one line for the user to add: single lookups stay with the user's tool, and questions needing three or more lookups go to `ling-delegate`. The user decides.
 
 **Phase 1: `ling delegate find|digest` in the launcher (`ling-rs`).**
 - the same behaviour as the recipe, plus the deterministic extracts of §5.2;
 - a fixed JSON output, the busy and benchmark checks of §6, and the audit records of §5.4;
+- the `ling-delegate` exclusion built into the skills planner, so no install step is needed for it;
 - no Codex patch: it runs its own binary's `exec` as a child.
 
 **Phase 2: `ling delegate loop`.** Built only if the Phase 1 data shows build-and-fix runs matter for this user. On this machine they are 1.2% of the cost today.
@@ -237,9 +241,9 @@ Every delegation is recorded under `~/.mightling/delegate/`: the brief, the answ
 
 **What counts as a failure:** a miss that `ling` reports as `found`/`high` with verified evidence, but where the evidence answers a different question. It is the dangerous case, and every one is read by hand.
 
-**Phase 1: a forward A/B.**
-- **The tasks:** 30 tasks from this repository's history, each a commit that changed tests. The task is the commit message, the starting point is its parent, and the hidden check is the commit's tests.
-- **The runs:** headless `claude -p` in a fresh worktree, three arms, the same model:
+**Phase 1: a forward A/B in the regime that matters.** A fresh headless session starts near 30–40k tokens of context, where §3 predicts little saving. A fresh-session benchmark therefore cannot confirm the §2.3 ceiling; it could fail for the wrong reason. So each arm works through its tasks **in one continued session**, compacting as Claude Code does, so its context grows into the range of §2.1. The context reached is reported with the results.
+- **The tasks:** 30 tasks from this repository's history, each a commit that changed tests. The task is the commit message, the starting point is its parent, and the hidden check is the commit's tests. Each task gets its own worktree inside the session.
+- **The runs:** headless `claude -p`, continued between tasks, three arms, the same model:
   - (A) today;
   - (B) with the `ling-delegate` skill;
   - (C) with a rule to brief fresh subagents instead of forking (§2.4).
@@ -250,6 +254,8 @@ Every delegation is recorded under `~/.mightling/delegate/`: the brief, the answ
   - number of delegations and their audit results.
 - **Quality bar:** no task passed by A and failed by B where the audit traces the failure to a delegation. Discordant pairs in either direction are reported.
 - **Cost bar to ship the skill as recommended:** a median paired saving of at least 10% of price-weighted tokens.
+
+**A field check after the A/B.** The transcript analysis of §2 is repeated after two weeks of real use with the skill: the exploration-run share and the price-weighted cost per user turn, before and after. Different weeks are different work, so this confirms direction, not size.
 
 **Cost of measuring.** The A/B spends Claude tokens: 90 headless runs. Phase 0b spends 60 short Claude readings. Both are run only after the user approves the spend.
 
@@ -277,9 +283,13 @@ Every delegation is recorded under `~/.mightling/delegate/`: the brief, the answ
 - the exploration and build-and-fix run shares;
 - the subagent share and the fresh-agent ceiling.
 
-**Read from source:** the `ling exec` flags this design relies on (`--output-schema`, `-o`, `--ephemeral`, `-s`, `-C`, `--worktree`).
+**Read from source:**
+- the `ling exec` flags this design relies on (`--output-schema`, `-o`, `--ephemeral`, `-s`, `-C`, `--worktree`). They exist; that is all reading proves;
+- that a user's own `[[skills.config]]` entries and the `disabled` list survive the launcher's rewrites (`ling-rs/skills/src/config_entries.rs`, `settings.rs`);
+- the runner lock and its holder text (`dreamference/night_shift/night_shift_queue.py`).
 
 **Not measured:**
+- **first:** whether `--output-schema` reaches SGLang through the local provider and constrains the answer. Phase 0's first step; the fallback is in §8;
 - whether `ling` answers exploration questions well enough (Phase 0b);
 - its latency on real questions;
 - whether a sandbox inside Claude Code's sandbox works;
