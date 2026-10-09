@@ -625,7 +625,7 @@ mod tests {
 
     #[test]
     fn credentials_never_leave_the_parser() {
-        let id = parse_remote("https://stan:ghp_SECRET@github.com/dgxcoder/fano.git").unwrap();
+        let id = parse_remote("https://owner:ghp_SECRET@github.com/dgxcoder/fano.git").unwrap();
         assert_eq!(id.display, "github.com/dgxcoder/fano");
         assert!(!format!("{id:?}").contains("SECRET"));
     }
@@ -633,7 +633,7 @@ mod tests {
     #[test]
     fn our_domains_leave_out_public_mail_and_web_flow() {
         let authors = Authors::from_addresses(
-            ["Stan@Dgxcoder.com", "friend@gmail.com", "noreply@github.com", "1+bob@users.noreply.github.com"].map(String::from),
+            ["Owner@Dgxcoder.com", "friend@gmail.com", "noreply@github.com", "1+bob@users.noreply.github.com"].map(String::from),
         );
         assert!(authors.wrote("colleague@dgxcoder.com"), "an organisation domain counts");
         assert!(authors.wrote("friend@gmail.com"), "an address counts as itself");

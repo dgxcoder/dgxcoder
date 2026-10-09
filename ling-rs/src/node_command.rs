@@ -303,7 +303,7 @@ mod tests {
             ("provision", vec!["node", "provision"]),
             ("provision spark-1a2b gx10-77c0", vec!["node", "provision", "spark-1a2b", "gx10-77c0"]),
             ("add gx10-77c0", vec!["node", "add", "gx10-77c0"]),
-            ("add gx10-77c0 --user stan --ssh-port 2222", vec!["node", "add", "gx10-77c0", "--user", "stan", "--ssh-port", "2222"]),
+            ("add gx10-77c0 --user owner --ssh-port 2222", vec!["node", "add", "gx10-77c0", "--user", "owner", "--ssh-port", "2222"]),
             ("list", vec!["node", "list"]),
             ("status", vec!["node", "status"]),
             ("STATUS spark-1", vec!["node", "status", "spark-1"]),

@@ -368,11 +368,11 @@ mod tests {
     #[test]
     fn devices_keep_only_a_hash_and_can_be_revoked() {
         let state = scratch("devices");
-        let (id, token) = add_device(&state, "Stan's phone\u{7}").unwrap();
+        let (id, token) = add_device(&state, "Owner's phone\u{7}").unwrap();
         let text = std::fs::read_to_string(state.join("devices.json")).unwrap();
         assert!(!text.contains(&token), "the token itself is never stored");
         let device = device_for_token(&state, &token).unwrap();
-        assert_eq!((device.id.as_str(), device.name.as_str()), (id.as_str(), "Stan's phone"));
+        assert_eq!((device.id.as_str(), device.name.as_str()), (id.as_str(), "Owner's phone"));
         assert!(device_for_token(&state, "wrong").is_none());
         assert_eq!(revoke_device(&state, &id).unwrap().len(), 1);
         assert!(device_for_token(&state, &token).is_none());

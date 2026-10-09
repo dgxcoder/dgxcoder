@@ -36,7 +36,7 @@ def test_session_options_keep_the_socket_private_and_forward_nothing(tmp_path):
     run_dir = FleetSession.new_run_dir()
     try:
         assert stat.S_IMODE(os.stat(run_dir).st_mode) == 0o700
-        session = FleetSession("spark-1a2b", "stan", run_dir)
+        session = FleetSession("spark-1a2b", "owner", run_dir)
         first, later = session.options(first_contact=True), session.options()
         assert f"ControlPath={run_dir}/cm-spark-1a2b" in first
         assert "StrictHostKeyChecking=accept-new" in first and "StrictHostKeyChecking=yes" in later
@@ -56,7 +56,7 @@ def test_sudo_with_a_held_password_sends_it_on_stdin_and_never_logs_it(tmp_path,
         return subprocess.CompletedProcess(command, 0, "done\n", "")
     monkeypatch.setattr(fleet_session_module.subprocess, "run", fake_run)
     log = tmp_path / "host.log"
-    session = FleetSession("spark-1a2b", "stan", tmp_path, log_path=log)
+    session = FleetSession("spark-1a2b", "owner", tmp_path, log_path=log)
     session.sudo("$HOME/x/ling-admin node prepare", SECRET)
     command, kwargs = seen[0]
     assert command[-1].startswith("sudo -S -p '' ")
@@ -165,20 +165,20 @@ def test_prepare_on_a_ready_machine_changes_nothing(machine, monkeypatch):
     machine["linger"] = True
     ran = []
     monkeypatch.setattr(os, "geteuid", lambda: 0)
-    monkeypatch.setenv("SUDO_USER", "stan")
+    monkeypatch.setenv("SUDO_USER", "owner")
     monkeypatch.setattr(NodePrepare, "_execute", classmethod(lambda cls, command: ran.append(command) or True))
-    assert NodePrepare.steps("stan") == []
+    assert NodePrepare.steps("owner") == []
     assert NodePrepare.run() is True and ran == []
 
 
 def test_prepare_runs_exactly_the_missing_steps(machine):
-    machine["docker"] = {"name": "Docker without sudo", "why": "x", "commands": [["usermod", "-aG", "docker", "stan"]]}
+    machine["docker"] = {"name": "Docker without sudo", "why": "x", "commands": [["usermod", "-aG", "docker", "owner"]]}
     machine["telemetry"] = {"name": "NVIDIA's telemetry", "why": "x",
                             "commands": [["systemctl", "disable", "--now", "nvidia-dgx-telemetry"]]}
-    names = [step["name"] for step in NodePrepare.steps("stan")]
+    names = [step["name"] for step in NodePrepare.steps("owner")]
     assert names == ["Docker without sudo", "lingering", "NVIDIA's telemetry"]
-    linger = NodePrepare.steps("stan")[1]
-    assert linger["commands"] == [["loginctl", "enable-linger", "stan"]]
+    linger = NodePrepare.steps("owner")[1]
+    assert linger["commands"] == [["loginctl", "enable-linger", "owner"]]
 
 
 def test_the_real_steps_never_touch_ssh_the_network_accounts_or_apt(monkeypatch):
@@ -187,14 +187,14 @@ def test_the_real_steps_never_touch_ssh_the_network_accounts_or_apt(monkeypatch)
     from dreamference.vllm_server.sandbox_prerequisite import SandboxPrerequisite
     monkeypatch.setattr(NodePrepare, "_host_steps", classmethod(lambda cls: []))
     monkeypatch.setattr(node_prepare.grp, "getgrnam", lambda name: type("G", (), {"gr_mem": []})())
-    monkeypatch.setattr(NodePrepare, "_primary_group", classmethod(lambda cls, user: "stan"))
+    monkeypatch.setattr(NodePrepare, "_primary_group", classmethod(lambda cls, user: "owner"))
     monkeypatch.setattr(NodePrepare, "_systemctl", classmethod(lambda cls, verb, unit: "enabled"))
     monkeypatch.setattr(NodePrepare, "_profile_loaded", classmethod(lambda cls: False))
     monkeypatch.setattr(SandboxPrerequisite, "fix_commands",
                         classmethod(lambda cls: [["install", "-m", "644", "/tmp/p", "/etc/apparmor.d/puffin-bwrap"],
                                                  ["apparmor_parser", "-r", "/etc/apparmor.d/puffin-bwrap"]]))
     monkeypatch.setattr(node_prepare.pwd, "getpwnam", lambda name: type("P", (), {"pw_uid": 4242, "pw_gid": 4242})())
-    steps = NodePrepare.steps("stan")
+    steps = NodePrepare.steps("owner")
     names = [step["name"] for step in steps]
     assert "NVIDIA's telemetry" in names and "lingering" in names and "Docker without sudo" in names
     for step in steps:
@@ -293,8 +293,8 @@ def test_node_add_falls_back_to_a_login_when_no_browse_finds_it(monkeypatch):
     called = []
     monkeypatch.setattr(NodePairing, "add_by_login",
                         classmethod(lambda cls, address, user, port: called.append((address, user, port)) or True))
-    assert NodePairing.add("10.0.0.5", user="stan")
-    assert called == [("10.0.0.5", "stan", 22)]
+    assert NodePairing.add("10.0.0.5", user="owner")
+    assert called == [("10.0.0.5", "owner", 22)]
 
 
 # -- a whole run, against stand-in machines ----------------------------------------------------------
@@ -307,7 +307,7 @@ class StandIn:
         self.state = {"dgx": "1" if gb10 else "0", "gpu": "NVIDIA GB10" if gb10 else "x",
                       "admin": "0", "bundle": "", "docker_group": "0", "linger": "0", "avahi_file": "0",
                       "advertised": "0", "sandbox_profile": "0", "userns_restricted": "1", "telemetry": "enabled",
-                      "free_gb": "500", "hub": "/home/stan/.cache/huggingface/hub", "node_id": "feedface1234"}
+                      "free_gb": "500", "hub": "/home/user/.cache/huggingface/hub", "node_id": "feedface1234"}
         self.prepare_fails = False
         self.copied = self.pulled = False
         if ready:
@@ -425,7 +425,7 @@ def fleet(tmp_path, monkeypatch):
     monkeypatch.setattr(NodeProvisioner, "print_summary", lambda self: None)
     asked = []
     monkeypatch.setattr(node_provisioner.getpass, "getpass", lambda prompt: asked.append(prompt) or SECRET)
-    monkeypatch.setattr(node_provisioner.getpass, "getuser", lambda: "stan")
+    monkeypatch.setattr(node_provisioner.getpass, "getuser", lambda: "owner")
 
     class Askpass:
         def __init__(self, run_dir, passwords):

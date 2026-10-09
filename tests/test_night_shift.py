@@ -981,7 +981,7 @@ def two_nodes(setup, fake_host, monkeypatch):
     import contextlib
     import io
     from dreamference.node import NodeJob, NodeJobSender, NodePairing, NodeServe
-    record = {"node": "2222-bbbb", "name": "spark-2", "address": "192.168.0.106", "user": "stan", "ssh_port": 22}
+    record = {"node": "2222-bbbb", "name": "spark-2", "address": "192.168.0.106", "user": "owner", "ssh_port": 22}
     NodePairing._save(record)
     monkeypatch.setattr(NodePairing, "find", classmethod(lambda cls, name, browse=True: dict(record)))
     requests = []
