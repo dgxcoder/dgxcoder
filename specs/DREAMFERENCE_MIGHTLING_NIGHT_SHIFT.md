@@ -110,7 +110,7 @@ It has no network code and no knowledge of vLLM. Its unit tests run with the oth
 ```json
 {
   "id": "20260929-2141-a3f",
-  "repo": "/home/stan/PycharmProjects/dgxcoder",
+  "repo": "/home/user/PycharmProjects/dgxcoder",
   "base": "5484992…",
   "branch": "night/20260929-2141-a3f",
   "task": "Add type hints to dreamference/hardware/model_spec.py",
