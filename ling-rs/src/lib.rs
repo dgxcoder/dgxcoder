@@ -43,6 +43,7 @@ pub mod compaction;
 pub mod docs_index;
 pub mod help;
 pub mod home;
+pub mod images;
 pub mod ledger;
 pub mod mask;
 pub mod night;
@@ -449,6 +450,9 @@ pub async fn prepare_args(command: &Command, args: Vec<OsString>) -> anyhow::Res
     let args = docs_index::with_tools(args, &docs_block);
     // One MCP server per declared app (apps.rs).
     let args = apps::with_servers(args, &declared_apps);
+    // `image_search`, when image search is set up on this node and the air gap is not `on` (images.rs).
+    let images_admin = images::offered(configured.level == airgapped::Level::On, host_is_local(&host));
+    let args = images::with_server(args, images_admin.as_deref());
     // `default` is `model_catalog.json`, already named in `config.toml`; another prompt's catalog
     // is named for this process only, so a session it resumes keeps the prompt it recorded.
     let args = match catalog {
