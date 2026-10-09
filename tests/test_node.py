@@ -350,13 +350,13 @@ def test_a_node_is_kept_once_at_ipv4_and_a_link_local_address_carries_its_interf
 
 def test_rsync_brackets_an_ipv6_host(tmp_path, monkeypatch):
     from dreamference.node.fleet_session import FleetSession
-    session = FleetSession("fe80::1%enP7s7", "stan", tmp_path)
+    session = FleetSession("fe80::1%enP7s7", "owner", tmp_path)
     ran = []
     monkeypatch.setattr(session, "_spawn", lambda command, capture=False: ran.append(command)
                         or subprocess.CompletedProcess(command, 0, "", ""))
     monkeypatch.setattr(session, "_log", lambda command, result: None)
     session.rsync(tmp_path, "~/bundle")
-    assert ran[0][-1] == "stan@[fe80::1%enP7s7]:~/bundle/"
+    assert ran[0][-1] == "owner@[fe80::1%enP7s7]:~/bundle/"
 
 
 # -- the locator crate ------------------------------------------------------------------------------
@@ -456,7 +456,7 @@ def test_a_start_that_fails_does_not_leave_the_node_saying_loading(monkeypatch):
 
 # -- Part 2: pairing, and managing a node from another (§12.4, §13.2, §15.1) ------------------------
 
-PUBLIC_KEY = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFakeKeyBodyForTestsOnly0000000000000000000 stan@laptop"
+PUBLIC_KEY = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFakeKeyBodyForTestsOnly0000000000000000000 owner@laptop"
 
 
 def test_the_authorised_line_forces_one_command_and_forbids_the_rest():
@@ -466,7 +466,7 @@ def test_the_authorised_line_forces_one_command_and_forbids_the_rest():
     for restriction in ("restrict", "no-pty", "no-port-forwarding", "no-agent-forwarding", "no-X11-forwarding", "no-user-rc"):
         assert restriction in line.split(" ssh-ed25519 ")[0]
     assert line.endswith(" mightling-node")                       # the sender's own comment is not kept
-    assert "stan@laptop" not in line
+    assert "owner@laptop" not in line
     for bad in ("", "not a key", PUBLIC_KEY + "\nssh-ed25519 AAAA second", "rm -rf /"):
         with pytest.raises(ValueError):
             NodePairing.authorized_line(bad, "/x node serve-job")
@@ -545,7 +545,7 @@ def test_only_a_key_of_the_nodes_own_matrix_is_loaded(monkeypatch, capsys):
 
 def paired_record(node_id="2222-bbbb", address="192.168.0.106"):
     from dreamference.node import NodePairing
-    record = {"node": node_id, "name": "spark-2", "address": address, "user": "stan", "ssh_port": 22}
+    record = {"node": node_id, "name": "spark-2", "address": address, "user": "owner", "ssh_port": 22}
     NodePairing._save(record)
     return record
 
@@ -555,7 +555,7 @@ def test_every_connection_uses_the_pairing_key_and_the_pinned_host_key(monkeypat
     monkeypatch.setattr(NodeBrowser, "browse", classmethod(lambda cls, timeout=6: []))
     record = paired_record()
     command = NodePairing.ssh_command(record, "status")
-    assert command[0] == "ssh" and command[-2:] == ["stan@192.168.0.106", "status"]
+    assert command[0] == "ssh" and command[-2:] == ["owner@192.168.0.106", "status"]
     options = " ".join(command)
     assert f"-i {NodePairing.key_path()}" in options and "IdentitiesOnly=yes" in options
     assert "BatchMode=yes" in options                           # never a password prompt mid-command
@@ -605,14 +605,14 @@ def test_pairing_checks_that_the_machine_that_answered_is_the_advertised_node(mo
     answers = {"info": json.dumps({"node": "2222-bbbb", "linger": False})}
     monkeypatch.setattr(NodePairing, "run", classmethod(
         lambda cls, record, request, capture=True, input_text=None: subprocess.CompletedProcess([], 0, answers[request], "")))
-    assert NodePairing.add("spark-2", user="stan") is True
+    assert NodePairing.add("spark-2", user="owner") is True
     assert sent[0].startswith("ssh-ed25519 ") and NodePairing.key_path().is_file()
     assert oct(NodePairing.key_path().stat().st_mode & 0o777) == "0o600"
     assert NodePairing.paired()[0]["node"] == "2222-bbbb"
     assert "loginctl enable-linger" in capsys.readouterr().out     # a job would die with its sender
     # Another machine answering at that address: refused, and nothing is left paired.
     answers["info"] = json.dumps({"node": "9999-other"})
-    assert NodePairing.add("spark-2", user="stan") is False
+    assert NodePairing.add("spark-2", user="owner") is False
     assert NodePairing.paired() == []
     # Not on the network: pairing by address is tried instead (FLEET §7.6), over one login.
     tried = []
@@ -813,13 +813,13 @@ def job_node(tmp_path, monkeypatch):
 def test_a_job_runs_in_a_worktree_and_its_changes_come_back_as_a_branch(job_node, capsys):
     from dreamference.node import NodeJob
     record = NodeJob.submit(job_request(commit=job_node["commit"], command=["bash", "-c", "echo hello; echo two >> data.txt; echo new > out.txt"],
-                                        test="grep -q two data.txt", author={"name": "Stan", "email": "s@example.org"}), "/x/ling-admin")
+                                        test="grep -q two data.txt", author={"name": "Owner", "email": "s@example.org"}), "/x/ling-admin")
     assert NodeJob.execute(record["id"]) == 0
     done = NodeJob.read(record["id"])
     assert (done["status"], done["exit_code"], done["test_exit_code"], done["branch"]) == ("done", 0, 0, "job/20261002-1200-abc")
     git = lambda *args: subprocess.run(["git", "--git-dir", str(job_node["repo"]), *args], capture_output=True, text=True).stdout
     assert git("log", "-1", "--format=%an <%ae> %s", "job/20261002-1200-abc").strip() == \
-        "Stan <s@example.org> job: bash -c 'echo hello; echo two >> data.txt; echo new > out.txt'"
+        "Owner <s@example.org> job: bash -c 'echo hello; echo two >> data.txt; echo new > out.txt'"
     assert sorted(git("show", "--name-only", "--format=", "job/20261002-1200-abc").split()) == ["data.txt", "out.txt"]
     assert not (NodeJob.job_dir(record["id"]) / "tree").exists()        # the worktree is gone, the branch stays
     # The output is kept on the node, and reading it again is only a view.
@@ -898,7 +898,7 @@ def test_only_a_job_repository_can_be_pushed_to_or_fetched_from(monkeypatch, cap
     from dreamference.node import NodeJob, NodeServe
     ran = []
     monkeypatch.setattr(subprocess, "run", lambda argv, **_: ran.append(argv) or subprocess.CompletedProcess(argv, 0, "", ""))
-    for path in ("/home/stan/PycharmProjects/dgxcoder", "jobs/../../.ssh.git", "jobs/a/b.git", "jobs/x", "/etc/passwd", "~/.mightling"):
+    for path in ("/home/user/PycharmProjects/dgxcoder", "jobs/../../.ssh.git", "jobs/a/b.git", "jobs/x", "/etc/passwd", "~/.mightling"):
         assert NodeServe.serve(f"git-receive-pack '{path}'") == 2, path
         assert NodeServe.serve(f"git-upload-pack '{path}'") == 2, path
     assert ran == []
@@ -1065,7 +1065,7 @@ def test_a_paired_node_serving_the_same_model_is_a_lane_and_every_other_is_named
     paired_record()                                                               # spark-2, .106
     for number in (3, 4, 5):
         NodePairing._save({"node": f"{number}{number}{number}{number}-x", "name": f"spark-{number}",
-                           "address": f"192.168.0.10{number + 4}", "user": "stan", "ssh_port": 22})
+                           "address": f"192.168.0.10{number + 4}", "user": "owner", "ssh_port": 22})
     answers = {"192.168.0.106": {"model_port": 8000}, "192.168.0.107": {"model_port": 8000},
                "192.168.0.108": {"runner": "a Night Shift run"}}
     asked = []
@@ -1114,8 +1114,8 @@ def test_the_sender_always_sends_caps_and_reaches_the_node_through_the_pairing(t
     assert re.fullmatch(r"My-Repo-[0-9a-f]{10}", request["repo"])
     assert NodeJobSender.compose(str(repo), "a" * 40, ["x"], "16G", "2h", "pytest -q")["test"] == "pytest -q"
     record = paired_record()
-    assert NodeJobSender.git_url(record, "calc-0123456789") == "ssh://stan@192.168.0.106:22/jobs/calc-0123456789.git"
-    assert NodeJobSender.git_url(dict(record, address="fd00::6", ssh_port=2222), "r") == "ssh://stan@[fd00::6]:2222/jobs/r.git"
+    assert NodeJobSender.git_url(record, "calc-0123456789") == "ssh://owner@192.168.0.106:22/jobs/calc-0123456789.git"
+    assert NodeJobSender.git_url(dict(record, address="fd00::6", ssh_port=2222), "r") == "ssh://owner@[fd00::6]:2222/jobs/r.git"
     ssh = NodeJobSender.git_environment(record)["GIT_SSH_COMMAND"]
     assert ssh.startswith("ssh -i ") and "HostKeyAlias=mightling-node-2222-bbbb" in ssh and "StrictHostKeyChecking=yes" in ssh
     assert " -p " not in ssh                                                    # the URL carries the port
@@ -1149,27 +1149,24 @@ def test_a_job_is_not_sent_from_outside_a_repository_or_to_an_unpaired_node(tmp_
     assert NodeJobSender.logs("20261002-1200-abc") == 1 and NodeJobSender.fetch("../x") == 1
 
 
-# -- ling-app's Ask window (ASK §10) -------------------------------------------------------------
+# -- ling-app's Ask (ASK §10, §18.6) -------------------------------------------------------------
 # Until 2026-10-08 the app's Chat window was the Onyx web UI, reached on a client through a loopback
-# forwarder to the node and signed in with the per-install Onyx password. It is now the Mightling
-# UI on `ling web` on the same machine (desktop/electron/src/web.ts, tested in web.test.ts): an Ask
-# thread runs where the app runs, against the node's model server, so nothing is forwarded and no
-# password is read.
+# forwarder to the node and signed in with the per-install Onyx password; until 2026-10-09 the
+# menu's Ask was a window on `ling web` on the same machine. Ask is now a view of the app window,
+# on the app's own app-server: an Ask thread runs where the app runs, against the node's model
+# server, so nothing is forwarded, nothing is signed in to and no password is read.
 
 ELECTRON_SRC = Path(__file__).resolve().parent.parent / "desktop" / "electron" / "src"
 
 
-def test_the_ask_window_signs_in_with_ling_webs_one_time_link_and_no_password():
-    chat = (ELECTRON_SRC / "chat.ts").read_text()
-    web = (ELECTRON_SRC / "web.ts").read_text()
-    assert '["web", "open", "--print-url"]' in web
-    # No script is injected, no preload, and no account or credential file anywhere in the app.
-    assert "executeJavaScript" not in chat and "preload:" not in chat
-    assert not (ELECTRON_SRC / "sign-in.ts").exists() and not (ELECTRON_SRC / "forwarder.ts").exists()
+def test_ask_in_the_app_reaches_no_server_and_reads_no_password():
+    for retired in ("chat.ts", "web.ts", "sign-in.ts", "forwarder.ts", "discover.ts", "node_locator.ts"):
+        assert not (ELECTRON_SRC / retired).exists(), retired
     for source in ELECTRON_SRC.glob("*.ts"):
-        text = source.read_text()
-        if source.name == "credentials.test.ts":
+        if source.name == "credentials.test.ts":  # the test that names what must be absent
             continue
+        text = source.read_text()
+        assert "executeJavaScript" not in text and "--print-url" not in text, source.name
         assert "admin@dreamference.dev" not in text and "chat-admin.json" not in text, source.name
 
 
